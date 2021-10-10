@@ -174,7 +174,6 @@ namespace lima{
                     buf[i] = '\0';
                     if (buf[0] != '\x1b' || buf[1] != '[') return ret;
                     if (sscanf(&buf[2], "%d;%d", &((&ret)->y), &((&ret)->x)) != 2) return ret; // it looks ugly but so are you
-
                     return ret;
                 }
 
