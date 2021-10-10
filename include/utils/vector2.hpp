@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 namespace lima{
     struct vector2{
         int x;
@@ -8,5 +10,10 @@ namespace lima{
             x = _x;
             y = _y;
         }
+        friend void swap(vector2& lhs, vector2& rhs){
+            std::swap(lhs.x, rhs.x);
+            std::swap(lhs.y, rhs.y);
+        }
+
     };
 }
