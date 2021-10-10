@@ -47,6 +47,10 @@ Instead of clearing the screen and reprinting everything, it will be better to m
 Everything internal to lima will be marked as lima_Name
 (i.e the lima terminal singleton is lima_Terminal)
 
+The smallest cursor position/point of origin is (1,1), if anything returns (0,0) it means an error occured. 
+
 
 # Notes
 This project (as of right now) is going to be VERY MESSY, as of right now, I need to get this project working in a prototype state in 8 days(ideally less for my gamejammers to work on the project)
+To give an idea for the project outline; it will most likely just be a scrappy collection of libraries barely working together with "a lot of overhead" and poor programming. However, throughout and potentially after the kajam game jam, I will update lima to be better and better. Though I will admit, I'm most likely only going to have it run on linux because windows sucks, or something
+(I'm too lazy)

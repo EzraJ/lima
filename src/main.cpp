@@ -8,21 +8,23 @@
 
 
 
-int main(int argc, char **argv){
+int main(){
     lima::terminal::terminal& myTerm = lima::terminal::terminal::getInstance();
 
     myTerm.enableRawMode();
 
-    std::cout << "test\n";
-    lima::vector2 windowSize = myTerm.getWindowSize();
-    std::cout << "test2\r\n";
-    lima::vector2 cursorPosition = myTerm.getCursorPosition();
+    myTerm.print("Hello World!");
+    myTerm.pPrint("Testing World!\n");
+    myTerm.cPrint("Downhere, world!", lima::vector2(15, 15));
+    myTerm.pPrint("\nABC0");
+    myTerm.xPrint("X", lima::vector2(15, 15));
 
+    myTerm.xPrint("ABCDEFG\rABC2\n", lima::vector2(15,17));
+        myTerm.setCursorPosition(lima::vector2(15,20));
+    
 
     myTerm.disableRawMode();
-    
-    std::cout << windowSize.x << ", " << windowSize.y << std::endl;
-    std::cout << cursorPosition.x << ", " << cursorPosition.y << std::endl;
+
     
     return 0;
 }

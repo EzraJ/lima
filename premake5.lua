@@ -6,6 +6,7 @@ project "lima"
 	language "C++"
     cppdialect "C++20"
     buildoptions "--std=c++20"
+	buildoptions {"-Werror", "-Wall", "-pedantic", "-Wextra"}
 	targetdir "bin/%{cfg.buildcfg}"
 	includedirs {"src/", "include/", "./", "vendor/"}
     libdirs {"lib/"}

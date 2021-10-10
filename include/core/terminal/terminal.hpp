@@ -22,6 +22,8 @@ Shamelessly copied sources: (references by [num])
 #include <memory.h>
 #include <stdexcept> // std::runtime_error
 #include <sys/ioctl.h>
+#include <algorithm>
+
 #include "utils/vector2.hpp"
 
 #define CTRL_KEY(k) ((k) & 0x1f) // [2], i.e CTRL_KEY('q') == Ctrl+q on keyboard
@@ -36,8 +38,6 @@ namespace lima{
 
 
         // TODO:
-        // cursor navigation and tracking
-        // Toggling terminal flags(?)
         // Organization + etc (?)
 
         class terminal{
@@ -121,26 +121,28 @@ namespace lima{
                     _rawTerm.c_cc[VMIN] = 0; // Minimum required amount of bytes for read() to return
                     _rawTerm.c_cc[VTIME] = 1; // Max amount of time to wait before read() returns. If timeout, return 0 
 
-                    result = tcsetattr(STDIN_FILENO, TCSAFLUSH, &_rawTerm);
+                    result = tcsetattr(STDIN_FILENO, TCSANOW, &_rawTerm);
                     if(result == -1){
-                        throw std::runtime_error("tcsetattr(STDIN_FILENO, TCSAFLUSH, &_rawTerm FAILED");
+                        throw std::runtime_error("tcsetattr(STDIN_FILENO, TCSANOW, &_rawTerm FAILED");
                         die("tcsetattr: ");
                         _rawMode = false;
                         return false;
                     }
 
                     _rawMode = true;
+                    write(STDOUT_FILENO, "\x1b[2J", 4);
+                    write(STDOUT_FILENO, "\x1b[H", 3);
                     return true;
                 }
 
                 bool _disableRawMode(){
                     if(_rawMode){
-                        int result = tcsetattr(STDIN_FILENO, TCSAFLUSH, &_originalTerm);
+                        int result = tcsetattr(STDIN_FILENO, TCSANOW, &_originalTerm);
                         if(result == 0){
                             _rawMode = false;
                             return true;
                         }else{
-                            throw std::runtime_error("tcsetattr(STDIN_FILENO, TCSAFLUSH, &_originalTerm) FAILED to set ANY flags, or ANY changes");
+                            throw std::runtime_error("tcsetattr(STDIN_FILENO, TCSANOW, &_originalTerm) FAILED to set ANY flags, or ANY changes");
                             die("tcsetattr: ");
                             _rawMode = true;
                             return false;
@@ -158,7 +160,15 @@ namespace lima{
                     return getInstance()._getWindowSize();
                 }
 
+                static void setCursorPosition(vector2 pos){
+                    getInstance()._setCursorPosition(pos);
+                }
+
             private:
+                vector2 _lastCursorPosition = vector2(0,0);
+
+                struct termios _tmpTerm;
+
                 vector2 _getCursorPosition(){
                     char buf[32];
                     unsigned int i = 0;
@@ -197,6 +207,61 @@ namespace lima{
                     return ret;
                 }
 
+                void _setCursorPosition(vector2 pos){
+                    // std::cout because I'm a cheater and don't wanna format it
+                    std::cout << "\x1b[" << pos.y << ";" << pos.x << "H";
+                    _lastCursorPosition.x = pos.x;
+                    _lastCursorPosition.y = pos.y;
+                }
+
+
+            /*** Writing definitions ***/
+            public:
+                static void print(std::string in){
+                    getInstance()._print(in);
+                }
+                static void pPrint(std::string in){
+                    getInstance()._pPrint(in);
+                }
+
+                static void xPrint(std::string in, vector2 pos){
+                    getInstance()._xPrint(in, pos);
+                }
+
+                static void cPrint(std::string in, vector2 pos){
+                    getInstance()._cPrint(in, pos);
+                }
+            private:
+
+            void _print(std::string in){
+                write(STDOUT_FILENO, in.c_str(), in.length());
+                _lastCursorPosition.x += in.length();
+                int count = std::count_if(in.begin(), in.end(), [](char c){return c == '\n';});
+                _lastCursorPosition.y += count;
+            }
+
+            void _pPrint(std::string in){
+                std::string buf = "\x1b[" + std::to_string(_lastCursorPosition.y) + ";" + std::to_string(_lastCursorPosition.x) + "H";
+                buf += in;
+                write(STDOUT_FILENO, buf.c_str(), buf.length());
+            }
+
+            void _xPrint(std::string in, vector2 pos){
+                std::string buf = "\x1b[" + std::to_string(pos.y) + ";" + std::to_string(pos.x) + "H";
+                buf += in;
+                write(STDOUT_FILENO, buf.c_str(), buf.length());
+            }
+
+            void _cPrint(std::string in, vector2 pos){
+                std::string buf = "\x1b[" + std::to_string(pos.y) + ";" + std::to_string(pos.x) + "H";
+                buf += in;
+                write(STDOUT_FILENO, buf.c_str(), buf.length());
+                _lastCursorPosition.x = pos.x+in.length()+1;
+                int count = std::count_if(in.begin(), in.end(), [](char c){return c == '\n';});
+                _lastCursorPosition.y = pos.y + count;
+                
+            }
+        
         };
 
 
