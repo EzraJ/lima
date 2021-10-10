@@ -21,6 +21,8 @@ Shamelessly copied sources: (references by [num])
 #include <csignal> // signal
 #include <memory.h>
 #include <stdexcept> // std::runtime_error
+#include <sys/ioctl.h>
+#include "utils/vector2.hpp"
 
 #define CTRL_KEY(k) ((k) & 0x1f) // [2], i.e CTRL_KEY('q') == Ctrl+q on keyboard
 
@@ -36,6 +38,7 @@ namespace lima{
         // TODO:
         // cursor navigation and tracking
         // Toggling terminal flags(?)
+        // Organization + etc (?)
 
         class terminal{
             /*** singleton definitions ***/
@@ -116,7 +119,7 @@ namespace lima{
                     _rawTerm.c_cflag |= (CS8); // Character masking(?, RTFM)
                     _rawTerm.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG); // Turn off echo(ECHO), canonical(ICANON), ctrlVO(IEXTEN), ctrlCZ(ISIG)
                     _rawTerm.c_cc[VMIN] = 0; // Minimum required amount of bytes for read() to return
-                    _rawTerm.c_cc[VTIME] = 0; // Max amount of time to wait before read() returns. If timeout, return 0 
+                    _rawTerm.c_cc[VTIME] = 1; // Max amount of time to wait before read() returns. If timeout, return 0 
 
                     result = tcsetattr(STDIN_FILENO, TCSAFLUSH, &_rawTerm);
                     if(result == -1){
@@ -144,6 +147,55 @@ namespace lima{
                         }
                     }
                     return false;
+                }
+            /*** cursor definitions ***/
+            public:
+                static vector2 getCursorPosition(){
+                    return getInstance()._getCursorPosition();
+                }
+
+                static vector2 getWindowSize(){
+                    return getInstance()._getWindowSize();
+                }
+
+            private:
+                vector2 _getCursorPosition(){
+                    char buf[32];
+                    unsigned int i = 0;
+                    vector2 ret(0,0);
+                    ret.x = 0;
+                    ret.y = 0;
+                    if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4) return ret;
+                    while (i < sizeof(buf) - 1) {
+                        if (read(STDIN_FILENO, &buf[i], 1) != 1) break;
+                        if (buf[i] == 'R') break;
+                        i++;
+                    }
+                    buf[i] = '\0';
+                    if (buf[0] != '\x1b' || buf[1] != '[') return ret;
+                    if (sscanf(&buf[2], "%d;%d", &((&ret)->y), &((&ret)->x)) != 2) return ret; // it looks ugly but so are you
+
+                    return ret;
+                }
+
+                vector2 _getWindowSize(){
+                    struct winsize ws;
+                    vector2 ret(0,0);
+                    ret.x = 0;
+                    ret.y = 0;
+                    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+                        if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) return ret;
+                        ret = _getCursorPosition();
+                        vector2 _cp(0,0);
+                        _cp = _getCursorPosition();
+                        memcpy(&ret, &_cp, sizeof(vector2(0,0)));
+                        return ret;
+                    } else {
+                        ret.x = ws.ws_col;
+                        ret.y = ws.ws_row;
+                        return ret;
+                    }
+                    return ret;
                 }
 
         };
