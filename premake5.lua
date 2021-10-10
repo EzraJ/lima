@@ -10,7 +10,7 @@ project "lima"
 	includedirs {"src/", "include/", "./", "vendor/"}
     libdirs {"lib/"}
 	files {"src/**.cpp", "src/**.c", "include/**.cpp", "include/**.c", "src/**.h", "src/**.hpp", "src/**.hxx", "include/**.h", "include/**.hpp", "include/**.hxx"}
-    links {"libangelscript.a"}
+    links {"angelscript"}
 	
 
 	filter "configurations:Debug"

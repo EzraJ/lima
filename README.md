@@ -40,3 +40,13 @@ Instead of clearing the screen and reprinting everything, it will be better to m
 
 [angelscript](https://www.angelcode.com/angelscript/) (Statically Linked)
 
+
+
+# "Internal docs/rules"
+
+Everything internal to lima will be marked as lima_Name
+(i.e the lima terminal singleton is lima_Terminal)
+
+
+# Notes
+This project (as of right now) is going to be VERY MESSY, as of right now, I need to get this project working in a prototype state in 8 days(ideally less for my gamejammers to work on the project)
