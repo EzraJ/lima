@@ -16,18 +16,19 @@ void editorProcessKeypress() {
   char c = editorReadKey();
   switch (c) {
     case CTRL_KEY('q'):
+      lima::terminal::terminal::disableRawMode();
       exit(0);
       break;
     default:
-        write(STDOUT_FILENO, "~\r\n", 3);
+        //char str[3];
+        //sprintf(str, "%c\r\n", c);
+        //write(STDOUT_FILENO, str, 3);
+        std::cout << (char)c << "\r\n"; // so yes, we can use std::cout even with raw mode on.
+        //write(STDOUT_FILENO, "~\r\n", 3);
   }
 }
 
 int main(int argc, char **argv){
-
-    /*lima::terminal::terminal& myTerm = lima::terminal::terminal::getInstance();
-
-    myTerm.enableRawMode();
 
     lima::terminal::terminal::enableRawMode();
 
@@ -36,14 +37,6 @@ int main(int argc, char **argv){
     }
 
     lima::terminal::terminal::disableRawMode();
-
-    myTerm.disableRawMode();*/
-    std::cout << "test" << std::endl;
-    lima::terminal::terminal::enableRawMode();
-    //write(STDOUT_FILENO, "~\r\n", 3);
-    //lima::terminal::terminal::disableRawMode();
-
-    //std::cout << fileno(stdout) << std::endl;
 
     return 0;
 }
