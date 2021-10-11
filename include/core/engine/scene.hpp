@@ -23,13 +23,22 @@ namespace lima{
         namespace engine{
             class scene{
                 public:
-                    scene(uint64_t id = 0){
+
+                    scene(uint64_t id = 0);
+                    ~scene();
+                    void openFile(std::string fName);
+                    void openManifest(std::string fName);
+                    std::vector<std::vector<lima::engine::block>>& sceneData();
+
+                    /*scene(uint64_t id = 0){
                         _sceneID = id;
                     }
                     ~scene(){
                         _blockFile.close();
                         _idData.close();
                     }
+
+                    
 
                     void openFile(std::string fName){
 
@@ -87,7 +96,7 @@ namespace lima{
 
                     std::vector<std::vector<lima::engine::block>>& sceneData(){
                         return _blockData;
-                    }
+                    }*/
                     
 
                 private:

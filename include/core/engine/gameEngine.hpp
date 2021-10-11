@@ -11,3 +11,11 @@ Game
   items(not to be confused with in-game items
   dynamic
 */
+
+namespace lima{
+	namespace core{
+		namespace engine{
+			
+		}
+	}
+}
