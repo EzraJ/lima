@@ -27,13 +27,42 @@ The project is ASCII-only for atleast now
     * Most likely will use the above systems and have game programmers implement themselves to an extent(i.e we provide entity IDs similar to block IDs)
 * Global ID systems utilizing uint64_t for various systems(block behaviors, entities, scripts, scenes, etc)
 
+
 ### Rendering
+My current idea for text rendering is to have scenes that act as layers(i.e layer 0,1,2,3 correlate to scene 0,1,2,3), with "transparent" blocks and toggles for each layer. On render updates, the renderer will ask the game engine for scenes that are visible and follow these steps:
+1. Read each block in scene
+2. For each block, read it's ID and send a "request" to the script engine
+3. The script engine will "reply" with information pertaining to rendering(i.e character, color, bolded, etc)
+4. Because everything is essentially text, we can construct a string that has each blocks character alongeside appropriate rendering properties
+    1. i.e: "[color_blue]#[color_blue]#[color_blue]#[color_blue]#" with [color_blue] corresponding with the ANSI codes to change colors.
+5. With the level loaded as a "renderable" string, we go to our logical camera(for now a single vector2 point) for where to render.     
+    1. i.e: a vector2 of (1,1) on the camera will render everything in the scene to the edges of the terminal window.
+    2. i.e: a vector of (5,5) will have the topleft most character correspond with (5,5) in the scene, and render to the edges of the terminal window.
+    3. note: most likely will be a non-issue, but anything outside of the camera view might potentially be a problem; easily solvable with carriage returns and newlines
+6. Finally, with the appropriate text selected to fit the terminal window, we simply send our text to the terminal module, which should require raw mode.
+
 #### Cameras
-Cameras will logically exist and be affixed to a point(or entity) and will render(print to console) a radius around the camera(with a rectangular viewpoint) appropriately.
-#### Windows
-Each camera will require the existence of a window, in this case a viewport is a better way of putting it. There's always going to be a master window that is positioned from (0,0) to the maximum resolution of the terminal. Whenever a camera is connected to a window, it will render to that window. Most likely the window will actually do the rendering, with the camera merely being a top-down point. This may change when implementing views that aren't top down.
-#### Updates
-Instead of clearing the screen and reprinting everything, it will be better to move the cursor to (1,1) and print to the appropriate windows(with respect to layers) 
+With "layers" being a feature for the moment, cameras will simply be a camera in the render window. Make sure to give references to the game programmer and engine features, i.e if we wanted a camera block that would be the cameras position, or if the game programmer wants to continually update the camera positions on entities(such as a player)
+
+#### Windows/Layers
+The previous concept of a window was esentially a layer on top with different positions; Instead the current layer system could simply specify a point on the **terminal** window to render its (1,1) point of origin. This solution would allow game/engine programmers to make "views" into mulitple windows, when in reality the renderer simply renders the bottom-most layer to the top-most layer.
+
+#### Functionality
+1. In the gameEngine object: `std::vector<std::vector<lima::core::engine::scene>>`
+    1. This will be the layers that the application can/has loaded. Most likely a `layer` class will be made that will do a lot of work for the renderer; and ensure that gamelogic will be updated on each individual scene. To keep the theme of properties, layers will keep track of visible scenes and track its own visibility, which the renderer will request.
+        1. The renderer will poll the gameEngine class or use a reference of the layers, and then the renderer will go through and do its work.
+        > note to self: It's most likely not true at all, but to keep multi-thread safety, we could have layers automatically insert themselves as outside of gamelogic(boolean) and not visible(boolean). Likewise, each scene will do the same. This may be an annoyance to the game programmers, but lets force them to be safe and track their scenes properly.
+    2. When appropriate, implement game logic. There are many paths that canbe taken, we could have the game programmers handle it and have threads for engine features(i.e a render thread that runs at a rate defined by game programmers), force a game loop on the users, to name a few. The most likely solution will be to make engine features on threads(appropriately managed on the engine side), and have the angelscript API interface with these **in a thread-safe manner**
+        1. For example, we could have `init.as` register the gameloop/logic function that will be called at set intervals defined by the game programmer.
+            1. This approach will allow us to do the above, but if the game programmer wants to, the engine should be flexible enough to allow them to manage game logic on their own by "bootstrapping" angelscript. The engine will still be in control; but the engine cores will be on threads accessible via the angel script API made by us. It'll be as if the angelscript is the program itself and simply has access to game-making tools(crazy, I know/s)
+        1. TODO: Flesh out this idea further
+
+    3. Physics relies on game logic, so I'm entirely unsure who should do physics(if at all), most likely will keep flexibility in the favor of the game programmer.
+        > note: layer by layer physics interactions? Unsure, probably best to have the engine do basic physics by default and allow game programmers to specify properties such as this.
+
+Due to the beautiful simplicity of text, we can map everything to an ID instead of having to deal with ECS problems(a bad example, but still)
+Because of this, a *lot* of processing can be simply done with the scene object alone. Additional processing(i.e layers, and potentially traits) will definitly be looked at in the future, but most likely lima will be ripe with features only because theres so much you can do with text graphics.
+
 # Dependencies
 
 [Taywee/args](https://github.com/Taywee/args) (Header)
