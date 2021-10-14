@@ -14,7 +14,7 @@ namespace lima{
                 public:
                     block(vector2 pos, uint64_t id, char inChar);
                     ~block(){}
-
+                    
                     vector2 getPos();
                     char getRender();
                     uint64_t getID();
@@ -25,6 +25,11 @@ namespace lima{
                         std::swap(lhs._id, rhs._id);
                         std::swap(lhs._myChar, rhs._myChar);
                     }
+
+                    bool transparent(){
+                        return !_id; // 0 -> true, anything else -> false
+                    }
+
                 private:
                     uint64_t _id = 0;
                     vector2 _pos = vector2(0,0);

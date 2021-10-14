@@ -44,6 +44,7 @@ namespace lima{
                     y++;
                     x=1;
                 }
+                _fileName = fName;
             }
 
 
