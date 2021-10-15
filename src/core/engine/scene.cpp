@@ -6,6 +6,11 @@ namespace lima{
             scene::scene(uint64_t id){
                 _sceneID = id;
             }
+
+            scene::scene(vector2 dims, uint64_t id){
+                
+            }
+
             scene::~scene(){
                 _blockFile.close();
                 _idData.close();

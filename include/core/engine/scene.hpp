@@ -24,6 +24,7 @@ namespace lima{
             class scene{
                 public:
                     scene(uint64_t id = 0);
+                    scene(vector2 dims, uint64_t id = 0); // A constructor to automatically make a scene with dimenions (dim.x, dim.y), with blocks given id 0(don't render/physics), and characters "<"
                     ~scene();
                     void openFile(std::string fName);
                     void openManifest(std::string fName);

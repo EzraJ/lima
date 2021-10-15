@@ -1,4 +1,5 @@
 #include "core/engine/layer.hpp"
+#include "core/terminal/termina.hpp"
 
 namespace lima{
     namespace core{
@@ -29,11 +30,39 @@ namespace lima{
                     _myScenes[id].openFile(fName);
                 }
 
-                lime::core::engine::scene getSceneRender(){
+                lima::core::engine::scene getVisibleScene(){
+                    int _y = lima::terminal::terminal::getWindowSize().y;
+                    int _x = lima::terminal::terminal::getWindowSize().x;
                     lima::core::engine::scene retScene(0);
-                    for(auto& e : _myScenes){
-                        e->secon
+                    auto& bd = retScene.sceneData();
+                    bd.resize(_y);
+                    for(auto& e : bd){
+                        e.resize();
                     }
+
+                    if(!_visible){
+                        // Nothing on the layer is visible, so lets return retScene with all of the blocks set to id 0
+                        int x = 1;
+                        for(int i = 0; i < _y; i++){
+                            for(int v = 0; i < _x; i++){
+                                bd.push_back(lima::core::engine::block(vector2(x, i+1), 0, '<'));
+                                x++;
+                            }
+                        }
+                        return retScene;
+                    }
+                    std::vector<lima::core::engine::scene> _scenebuf; // Because we care about order, are using std::map, and scenes are ordered by number, we can simply insert into a vector for easier processing
+                    for(auto& e : _scenebuf){
+                        _scenebuf.push_back(e->second);
+                    }
+
+                    for(auto& e : _scenebuf){
+                        if(!e.isClear()){
+
+                        }
+                    }
+
+                    return retScene;
                 }
 
         }

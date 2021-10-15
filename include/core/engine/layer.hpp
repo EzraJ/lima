@@ -24,12 +24,22 @@ namespace lima{
                         return _myScenes;
                     }
 
-                    lima::core::engine::scene getSceneRender(); // Does not render; instead returns the blocks of all of the scenes after processing.
+                    void setVisbility(bool visible){
+                        _visible = visible;
+                    }
+
+                    void setGameLogic(bool loaded){
+                        _gameLogic = loaded;
+                    }
+
+                    lima::core::engine::scene getVisibleScene(); // Does not render; instead returns the blocks of all of the scenes after processing.
                     // i.e scene 0 is the scene, and scene 1 is full of transparent blocks, getSceneRender() will return a scene with all of the blocks in 
 
                 private:
                     //std::vector<lime::core::engine::scene> _myScenes;
                     std::map<uint64_t, lima::core::engine::scene> _myScenes;
+                    bool _visible = false;
+                    bool _gameLogic = false;
             };
 
 
