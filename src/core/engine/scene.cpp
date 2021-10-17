@@ -1,4 +1,5 @@
 #include "core/engine/scene.hpp"
+#include <iostream>
 
 namespace lima{
     namespace core{
@@ -8,7 +9,8 @@ namespace lima{
             }
 
             scene::scene(vector2 dims, uint64_t id){
-                
+                _dimensions = dims;
+                _sceneID = id;
             }
 
             scene::~scene(){
@@ -54,6 +56,7 @@ namespace lima{
 
 
             void scene::openManifest(std::string fName){
+                std::cout << "OPENING MANIFEST: " << fName << "\n";
                 _idData.open(fName, std::ios_base::in);
                 if(_idData.is_open()){
                     std::string buf;

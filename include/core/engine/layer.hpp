@@ -13,14 +13,14 @@ namespace lima{
         namespace engine{
             class layer{
                 public:
-                    layer(std::string fName, uint64_t id = 0);
+                    layer(std::string fName, std::string mfName,uint64_t id = 0, vector2 camPos = vector2(0,0));
                     ~layer();
 
                     void moveScene(uint64_t dst, uint64_t src); // Swaps senes dst and src, doesn't really matter which is which
-                    void addScene(std::string fName, uint64_t id);
+                    void addScene(std::string fName, std::string mfName,uint64_t id);
 
 
-                    std::unordered_map<uint64_t, lima::core::engine::scene>& getScene(){
+                    std::map<uint64_t, lima::core::engine::scene>& getScene(){
                         return _myScenes;
                     }
 
@@ -38,6 +38,7 @@ namespace lima{
                 private:
                     //std::vector<lime::core::engine::scene> _myScenes;
                     std::map<uint64_t, lima::core::engine::scene> _myScenes;
+                    vector2 _cameraPosition = vector2(0,0);
                     bool _visible = false;
                     bool _gameLogic = false;
             };

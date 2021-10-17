@@ -20,11 +20,11 @@ namespace lima{
                     uint64_t getID();
                     void changeID(uint64_t id);
                     void swapPosition(block& other);
-                    friend void swap(block& lhs, block& rhs){
-                        std::swap(lhs._pos, rhs._pos);
-                        std::swap(lhs._id, rhs._id);
-                        std::swap(lhs._myChar, rhs._myChar);
-                    }
+                    //friend void swap(block& lhs, block& rhs){
+                     //   std::swap(lhs._pos, rhs._pos);
+                      //  std::swap(lhs._id, rhs._id);
+                       // std::swap(lhs._myChar, rhs._myChar);
+                    //}
 
                     bool transparent(){
                         return !_id; // 0 -> true, anything else -> false
