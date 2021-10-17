@@ -4,13 +4,9 @@
 #include "core/engine/block.hpp"
 #include "core/engine/scene.hpp"
 #include "core/engine/layer.hpp"*/
-#include "angelscript.h"
-#include <scriptstdstring/scriptstdstring.h>
-#include <scriptbuilder/scriptbuilder.h>
-#include <cassert>
+#include "core/engine/script/scriptEngine.hpp"
 
-
-void print(const std::string& in){
+/*void print(const std::string& in){
     std::cout << in;
 }
 
@@ -63,14 +59,17 @@ myClass* myClass_factory(int x, int y, int c){
     y = c;
     c = y;
     return new myClass(x);
-}
+}*/
 
 int main(){
 
 
+    lima::script::scriptEngine myScriptEngine;
+
+
 
     // Create the script engine
-    asIScriptEngine *engine = asCreateScriptEngine();
+    /*asIScriptEngine *engine = asCreateScriptEngine();
     
     int r = engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL); assert( r >= 0 );
     RegisterStdString(engine);
@@ -141,7 +140,7 @@ int main(){
             // An exception occurred, let the script writer know what happened so it can be corrected.
             printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
         }
-    }
+    }*/
 
     //std::cout << r << std::endl;
     //lima::terminal::terminal& myTerm = lima::terminal::terminal::getInstance();
