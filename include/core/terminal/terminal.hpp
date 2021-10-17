@@ -58,6 +58,10 @@ namespace lima{
                     return getInstance()._enableRawMode();
                 }
 
+                static void clearScreen(){
+                    getInstance()._clearScreen();
+                }
+
                 static bool disableRawMode(){
                     return getInstance()._disableRawMode();
                 }
@@ -130,10 +134,11 @@ namespace lima{
                     }
 
                     _rawMode = true;
-                    write(STDOUT_FILENO, "\x1b[2J", 4);
+                    write(STDOUT_FILENO, "\x1b[2J", 4); // clears the screen
                     write(STDOUT_FILENO, "\x1b[H", 3);
                     return true;
                 }
+
 
                 bool _disableRawMode(){
                     if(_rawMode){
@@ -150,6 +155,14 @@ namespace lima{
                     }
                     return false;
                 }
+
+
+                void _clearScreen(){
+                    write(STDOUT_FILENO, "\x1b[2J", 4); // clears the screen
+                    write(STDOUT_FILENO, "\x1b[H", 3);
+                }
+
+
             /*** cursor definitions ***/
             public:
                 static vector2 getCursorPosition(){

@@ -2,6 +2,7 @@
 #include "core/terminal/terminal.hpp"
 #include <algorithm>
 #include <utility>
+#include <string>
 #include <functional>
 
 
