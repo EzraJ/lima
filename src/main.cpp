@@ -2,8 +2,6 @@
 // Get engines initialized(rendering, networking, sound, etc)
 // Then start another thread and pass arguments to game_main
 
-
-
 #include <iostream>
 #include "lima/ansi.hpp"
 #include "terminal/terminal.hpp"
@@ -54,27 +52,22 @@ int main(){
         currentRender->SetBeans('#', lima::color(), lima::color(255, 0, i), myStyle);
         currentRender->Print();
     }
-
     for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(), lima::color(255-i, 0, 255), myStyle);
         currentRender->Print();
     }
-
     for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(), lima::color(0, i, 255), myStyle);
         currentRender->Print();
     }
-
     for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(), lima::color(0, 255, 255-i), myStyle);
         currentRender->Print();
     }
-
     for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(), lima::color(i, 255, 0), myStyle);
         currentRender->Print();
     }
-
     for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(), lima::color(255, 255-i, 0), myStyle);
         currentRender->Print();

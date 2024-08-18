@@ -12,29 +12,29 @@ namespace lima{
         terminalSize = LimaTermSize();
         beanCount = terminalSize.x * terminalSize.y;
         beans = new bean[beanCount];
-        streamBuffer.reserve((beanCount * 55) + 3);
+        streamBuffer = new basic_str((beanCount * 55) + 3);
         resized = false;
     }
 
     render::~render(){        
         delete[] beans;
+        delete streamBuffer;
     }
 
 
     void render::Print(){
-        streamBuffer.clear();
-        streamBuffer.append("\x1b[H");
-        for(uint i = 0; i <= beanCount-1; i++){
-            streamBuffer.append(beans[i].getContent());
+        streamBuffer->clear();
+        streamBuffer->add("\x1b[H", 3);
+        for(uint i = 0; i<= beanCount -1; i++){
+            beans[i].CStrAdd(*streamBuffer);
         }
-        write(STDIN_FILENO, streamBuffer.c_str(), streamBuffer.length());
+        write(STDOUT_FILENO, streamBuffer->m_str, streamBuffer->m_size);
     }
 
     void render::SetBeans(char c, color bg, color fg, style s){
         if(resized) Resize();
-        beans[0].SetBean(c, bg, fg, s);
-        for(uint i = 1; i <= beanCount-1; i++){
-            *(beans + i) = beans[0];
+        for(uint i = 0; i <= beanCount - 1; i++){
+            beans[i].SetBean(c, bg, fg, s);
         }
     }
 
@@ -48,9 +48,9 @@ namespace lima{
         delete[] beans;
         beans = new bean[beanCount];
         terminalSize = sz;
-        streamBuffer.clear();
-        streamBuffer.shrink_to_fit();
-        streamBuffer.reserve((55 * beanCount) + 3);
+
+        delete streamBuffer;
+        streamBuffer = new basic_str((55*beanCount) + 3);
         resized = false;
     }
 }

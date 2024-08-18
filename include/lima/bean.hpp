@@ -1,10 +1,15 @@
 #pragma once
+#define _OPEN_SYS_ITOA_EXT
 #include <string>
 #include <memory>
 #include <cstring>
 #include <cstdlib>
 
 #include "ansi.hpp"
+#include "basic_str.hpp"
+
+
+
 
 
 namespace lima{
@@ -17,6 +22,8 @@ namespace lima{
             b = blue;
         }
     };
+
+
 
     // TODO: Make this 2 bytes for memory optimization perhaps?
     struct style{
@@ -53,171 +60,91 @@ namespace lima{
     // BOLD 7
     class bean{
         public:
-            bean(char cIn = '#', color bgIn = color(0, 0, 0), color fgIn = color(255, 255, 255), style sIn = style()){
+            bean(char cIn = '#', color bgIn = color(0, 0, 0), color fgIn = color(255, 255, 255), style sIn = style()) : myStr(55){
                 c = cIn;
                 bg = bgIn;
                 fg = fgIn;
                 s = sIn;
-
-                beanContent.reserve(55);
-                _fg.reserve(17);
-                _bg.reserve(17);
-
-
-                _color();
-
-                CStr();
-                //Assemble();
             }
             ~bean(){
                 
             }
 
-            std::string CStr(){
-                char* buf = new char[55];
-                int n = 0;
-                buf[0] = '\x1b';
-                buf[1] = '[';
-                n = 2;
-                if(s.bold){
-                    buf[n] = '1';
-                    n++;
-                    buf[n] = ';';
-                    n++;
-                }
+            
+            void CStrAdd(basic_str& ptr){
+                ptr.add("\x1b[", 2);
 
-                if(s.dim && !s.bold){
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = ';';
-                    n++;
-                }
-
-                if(!s.dim && !s.bold){
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = ';';
-                    n++;
-                }
+                if(s.bold) ptr.add("1;", 2);
+                if(s.dim && !s.bold) ptr.add("2;", 2);
+                if(!s.dim && !s.bold) ptr.add("22;", 3);
 
                 if(s.italic){
-                    buf[n] = '3';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("3;", 2);
                 }else{
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = '3';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("23;", 3);
                 }
 
                 if(s.underline){
-                    buf[n] = '4';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("4;", 2);
                 }else{
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = '4';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("24;", 3);
                 }
 
                 if(s.blinking){
-                    buf[n] = '5';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("5;", 2);
                 }else{
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = '5';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("25;", 3);
                 }
 
                 if(s.inverse){
-                    buf[n] = '7';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("7;", 2);
                 }else{
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = '7';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("27;", 3);
                 }
 
                 if(s.strikethrough){
-                    buf[n] = '9';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("9;", 2);
                 }else{
-                    buf[n] = '2';
-                    n++;
-                    buf[n] = '9';
-                    n++;
-                    buf[n] = ';';
-                    n++;
+                    ptr.add("29;", 3);
                 }
-                buf[n] = '\0';
 
-                std::string ret(buf);
-                ret.append(_fg);
-                ret.append(_bg);
+                std::string fgr = std::to_string(fg.r);
+                std::string fgg = std::to_string(fg.g);
+                std::string fgb = std::to_string(fg.b);
+
+                std::string bgr = std::to_string(bg.r);
+                std::string bgg = std::to_string(bg.g);
+                std::string bgb = std::to_string(bg.b);
+
+                ptr.add("38;2;", 5);
+                ptr.add(fgr.c_str(), fgr.length());
+                ptr.add(";", 1);
+                ptr.add(fgg.c_str(), fgg.length());
+                ptr.add(";", 1);
+                ptr.add(fgb.c_str(), fgb.length());
+                ptr.add(";", 1);
+
+                ptr.add("48;2;", 5);
+                ptr.add(bgr.c_str(), bgr.length());
+                ptr.add(";", 1);
+                ptr.add(bgg.c_str(), bgg.length());
+                ptr.add(";", 1);
+                ptr.add(bgb.c_str(), bgb.length());
+                ptr.add("m", 1);
+
                 if(s.invisible){
-                    ret += " ";
+                    ptr.add(" ", 1);
                 }else{
-                    ret += c;
+                    ptr.add(&c, 1);
                 }
-                beanContent = ret;
-                return ret;
             }
 
-
-            std::string Assemble(){
-                beanContent.clear();
-                beanContent.append("\x1b[");
-
-                if(s.bold) beanContent.append("1;");
-                if(s.dim && !s.bold) beanContent.append("2;");
-                if(!s.dim && !s.bold) beanContent.append("22;");
-                beanContent.append((s.italic) ? "3;" : "23;");
-                beanContent.append((s.underline) ? "4;" : "24;");
-                beanContent.append((s.blinking) ? "5;" : "25;");
-                beanContent.append((s.inverse) ? "7;" : "27;");
-                beanContent.append((s.strikethrough) ? "9;" : "29;");
-                beanContent.append(_fg);
-                beanContent.append(_bg);
-                if(s.invisible){
-                    beanContent += " ";
-                }else{
-                    beanContent += c;
-                }
-                beanContent.shrink_to_fit();
-                return beanContent;
-
-            }
 
             void setFG(int r, int g, int b){
                 setFG(color(r, g, b));
             }
             void setFG(color in){
                 fg = in;
-                _color();
-                CStr();
-                //Assemble();
             }
 
             void setBG(int r, int g, int b){
@@ -225,15 +152,10 @@ namespace lima{
             }
             void setBG(color in){
                 bg = in;
-                _color();
-                CStr();
-                //Assemble();
             }
 
             void setStyle(style in){
                 s = in;
-                CStr();
-                //Assemble();
             }
 
             void SetBean(char cIn, color bgIn, color fgIn, style sIn){
@@ -241,9 +163,6 @@ namespace lima{
                 bg = bgIn;
                 fg = fgIn;
                 s = sIn;
-                _color();
-                CStr();
-                //Assemble();
             }
 
 
@@ -259,52 +178,19 @@ namespace lima{
 
             void setChar(char cIn){
                 c = cIn;
-                CStr();
-                //Assemble();
-                //Assemble(); // Might just trim the end of the string instead of a whole assembly
             }
 
             char getChar(){
                 return c;
             }
 
-            // What will be printed
-            std::string getContent(){
-                return beanContent;
-            }
-
+            basic_str myStr;
 
         private:
-
-
-            void _color(){
-                _fg.clear();
-                _bg.clear();
-                _fg.append("38;2;");
-                _fg.append(std::to_string(fg.r));
-                _fg.append(";");
-                _fg.append(std::to_string(fg.g));
-                _fg.append(";");
-                _fg.append(std::to_string(fg.b));
-                _fg.append(";");
-
-                _bg.append("48;2;");
-                _bg.append(std::to_string(bg.r));
-                _bg.append(";");
-                _bg.append(std::to_string(bg.g));
-                _bg.append(";");
-                _bg.append(std::to_string(bg.b));
-                _bg.append("m");
-
-                _fg.shrink_to_fit();
-                _bg.shrink_to_fit();
-            }
-
             color bg, fg;
-            std::string _bg, _fg;
             style s;
             char c;
-            std::string beanContent;
+            char colorBuf[36];
     };
 
 

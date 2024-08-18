@@ -12,6 +12,7 @@
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"
 #include "lima/vector2.hpp"
+#include "lima/basic_str.hpp"
 #include <random>
 
 namespace lima{
@@ -31,9 +32,8 @@ namespace lima{
 
             bool resized;
             bean* beans;
+            basic_str* streamBuffer;
         private:
-
-            std::string streamBuffer;
             uint beanCount;
             Vector2 terminalSize;
             
