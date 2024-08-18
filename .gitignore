@@ -3,3 +3,4 @@ bin/
 *.o
 Makefile
 *.make
+test.sh
