@@ -47,6 +47,21 @@ int main(){
     lima::color myFGColor(255, 255, 255);
     lima::color myBGColor(0,0,0);
 
+
+    //std::random_device dev;
+    //std::mt19937 rng(dev());
+    //std::uniform_int_distribution<std::mt19937::result_type> dist(0, 255);
+
+    
+    
+
+    //for(uint i = 0; i <= 255; i++){
+        //for(uint j = 0; j <= currentRender->getCount() -1; j++){
+            //currentRender->beans[j].SetBean('#', lima::color(dist(rng), dist(rng), dist(rng)), lima::color(dist(rng), dist(rng), dist(rng)), myStyle);
+        //}
+        //currentRender->SetBeans('#', lima::color(dist(rng), dist(rng), dist(rng)), lima::color(dist(rng), dist(rng), dist(rng)), myStyle);
+        //currentRender->Print();
+    //}
     
     for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(), lima::color(255, 0, i), myStyle);

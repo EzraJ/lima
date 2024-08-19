@@ -4,6 +4,8 @@
 #include <memory>
 #include <cstring>
 #include <cstdlib>
+#include <charconv>
+#include <array>
 
 #include "ansi.hpp"
 #include "basic_str.hpp"
@@ -65,9 +67,9 @@ namespace lima{
                 bg = bgIn;
                 fg = fgIn;
                 s = sIn;
+
             }
             ~bean(){
-                
             }
 
             
@@ -108,29 +110,31 @@ namespace lima{
                     ptr.add("29;", 3);
                 }
 
-                std::string fgr = std::to_string(fg.r);
-                std::string fgg = std::to_string(fg.g);
-                std::string fgb = std::to_string(fg.b);
-
-                std::string bgr = std::to_string(bg.r);
-                std::string bgg = std::to_string(bg.g);
-                std::string bgb = std::to_string(bg.b);
-
+                // This is faster than std::to_string
+                // Maybe it can be made faster though?
+                // Combining the strings and minimizing ptr.add() calls
+                // Improves performance significantly 
                 ptr.add("38;2;", 5);
-                ptr.add(fgr.c_str(), fgr.length());
-                ptr.add(";", 1);
-                ptr.add(fgg.c_str(), fgg.length());
-                ptr.add(";", 1);
-                ptr.add(fgb.c_str(), fgb.length());
-                ptr.add(";", 1);
+                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, fg.r);
+                colorBuf[resultBuffer.ptr - colorBuf] = ';';
+                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
+                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, fg.g);
+                colorBuf[resultBuffer.ptr - colorBuf] = ';';
+                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
+                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, fg.b);
+                colorBuf[resultBuffer.ptr - colorBuf] = ';';
+                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
 
                 ptr.add("48;2;", 5);
-                ptr.add(bgr.c_str(), bgr.length());
-                ptr.add(";", 1);
-                ptr.add(bgg.c_str(), bgg.length());
-                ptr.add(";", 1);
-                ptr.add(bgb.c_str(), bgb.length());
-                ptr.add("m", 1);
+                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, bg.r);
+                colorBuf[resultBuffer.ptr - colorBuf] = ';';
+                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
+                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, bg.g);
+                colorBuf[resultBuffer.ptr - colorBuf] = ';';
+                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
+                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, bg.b);
+                colorBuf[resultBuffer.ptr - colorBuf] = 'm';
+                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
 
                 if(s.invisible){
                     ptr.add(" ", 1);
@@ -138,6 +142,7 @@ namespace lima{
                     ptr.add(&c, 1);
                 }
             }
+
 
 
             void setFG(int r, int g, int b){
@@ -187,10 +192,11 @@ namespace lima{
             basic_str myStr;
 
         private:
+            char colorBuf[4];
+            std::to_chars_result resultBuffer;
             color bg, fg;
             style s;
             char c;
-            char colorBuf[36];
     };
 
 
