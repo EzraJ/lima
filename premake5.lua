@@ -20,8 +20,7 @@ project "lima"
         defines {"DEBUG"}
 
     filter "configurations:Release"
-        --optimize "On" Only enabled o2
-        buildoptions {"-O3"}
+        optimize "On"
         defines {"NDEBUG"}
 
 
