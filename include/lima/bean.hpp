@@ -62,12 +62,11 @@ namespace lima{
     // BOLD 7
     class bean{
         public:
-            bean(char cIn = '#', color bgIn = color(0, 0, 0), color fgIn = color(255, 255, 255), style sIn = style()) : myStr(55){
+            bean(char cIn = '#', color bgIn = color(0, 0, 0), color fgIn = color(255, 255, 255), style sIn = style()){
                 c = cIn;
                 bg = bgIn;
                 fg = fgIn;
                 s = sIn;
-
             }
             ~bean(){
             }
@@ -79,7 +78,7 @@ namespace lima{
                 if(s.bold) ptr.add("1;", 2);
                 if(s.dim && !s.bold) ptr.add("2;", 2);
                 if(!s.dim && !s.bold) ptr.add("22;", 3);
-
+                
                 if(s.italic){
                     ptr.add("3;", 2);
                 }else{
@@ -111,35 +110,48 @@ namespace lima{
                 }
 
                 // This is faster than std::to_string
-                // Maybe it can be made faster though?
-                // Combining the strings and minimizing ptr.add() calls
-                // Improves performance significantly 
-                ptr.add("38;2;", 5);
-                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, fg.r);
-                colorBuf[resultBuffer.ptr - colorBuf] = ';';
-                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
-                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, fg.g);
-                colorBuf[resultBuffer.ptr - colorBuf] = ';';
-                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
-                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, fg.b);
-                colorBuf[resultBuffer.ptr - colorBuf] = ';';
-                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
+                // And faster than having a color buffer for conversions.
+                // This practically writes directly to the render memory buffer.
+                // I believe the only way to make this faster is a faster std::to_chars that also writes directly to a memory address
+                // (I would look into fmt but this is simple, fast, and clear)
 
+                // Foreground
+                ptr.add("38;2;", 5);
+                resultBuffer = std::to_chars(ptr.m_str + ptr.m_size, ptr.m_str + ptr.m_size + 3, fg.r);
+                ptr.m_size += resultBuffer.ptr - (ptr.m_str + ptr.m_size);
+                ptr.m_str[ptr.m_size] = ';';
+                ptr.m_size++;
+                resultBuffer = std::to_chars(ptr.m_str + ptr.m_size, ptr.m_str + ptr.m_size + 3, fg.g);
+                ptr.m_size += resultBuffer.ptr - (ptr.m_str + ptr.m_size);
+                ptr.m_str[ptr.m_size] = ';';
+                ptr.m_size++;
+                resultBuffer = std::to_chars(ptr.m_str + ptr.m_size, ptr.m_str + ptr.m_size + 3, fg.b);
+                ptr.m_size += resultBuffer.ptr - (ptr.m_str + ptr.m_size);
+                ptr.m_str[ptr.m_size] = ';';
+                ptr.m_size++;
+
+                // Background
                 ptr.add("48;2;", 5);
-                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, bg.r);
-                colorBuf[resultBuffer.ptr - colorBuf] = ';';
-                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
-                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, bg.g);
-                colorBuf[resultBuffer.ptr - colorBuf] = ';';
-                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
-                resultBuffer = std::to_chars(colorBuf, colorBuf + 3, bg.b);
-                colorBuf[resultBuffer.ptr - colorBuf] = 'm';
-                ptr.add(colorBuf, resultBuffer.ptr - colorBuf + 1);
+                resultBuffer = std::to_chars(ptr.m_str + ptr.m_size, ptr.m_str + ptr.m_size + 3, bg.r);
+                ptr.m_size += resultBuffer.ptr - (ptr.m_str + ptr.m_size);
+                ptr.m_str[ptr.m_size] = ';';
+                ptr.m_size++;
+                resultBuffer = std::to_chars(ptr.m_str + ptr.m_size, ptr.m_str + ptr.m_size + 3, bg.g);
+                ptr.m_size += resultBuffer.ptr - (ptr.m_str + ptr.m_size);
+                ptr.m_str[ptr.m_size] = ';';
+                ptr.m_size++;
+                resultBuffer = std::to_chars(ptr.m_str + ptr.m_size, ptr.m_str + ptr.m_size + 3, bg.b);
+                ptr.m_size += resultBuffer.ptr - (ptr.m_str + ptr.m_size);
+                ptr.m_str[ptr.m_size] = 'm';
+                ptr.m_size++;
 
                 if(s.invisible){
-                    ptr.add(" ", 1);
+                    ptr.m_str[ptr.m_size] = ' ';
+                    ptr.m_size++;
+                    return;
                 }else{
-                    ptr.add(&c, 1);
+                    ptr.m_str[ptr.m_size] = c;
+                    ptr.m_size++;
                 }
             }
 
@@ -189,10 +201,7 @@ namespace lima{
                 return c;
             }
 
-            basic_str myStr;
-
         private:
-            char colorBuf[4];
             std::to_chars_result resultBuffer;
             color bg, fg;
             style s;
