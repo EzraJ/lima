@@ -49,6 +49,7 @@ namespace terminal{
 
 
 
+        // TODO: Add windows compatability 
     inline void initializeTerminal(){
         struct termios limaTerm;
         tcgetattr(STDOUT_FILENO, &limaTerm);
