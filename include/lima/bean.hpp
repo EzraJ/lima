@@ -1,11 +1,5 @@
 #pragma once
-#define _OPEN_SYS_ITOA_EXT
-#include <string>
-#include <memory>
-#include <cstring>
-#include <cstdlib>
 #include <charconv>
-#include <array>
 
 #include "ansi.hpp"
 #include "basic_str.hpp"

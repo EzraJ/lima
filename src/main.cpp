@@ -8,16 +8,27 @@
 #include "lima/bean.hpp"
 #include "lima/render.hpp"
 #include "game/game_main.hpp" // game_main(int argc, char** argv)
+#include <thread>
+#include <stop_token>
 
 #include <chrono>
 
 lima::render* currentRender = nullptr;
 
-bool resizing = false;
+
+
 
 void onTerminalResize(int signum [[maybe_unused]]){
     if(currentRender == nullptr) return;
     currentRender->resized = true;
+}
+
+
+void renderThreadLoop(std::stop_token stopToken){
+    while(!stopToken.stop_requested()){
+        if(currentRender == nullptr) continue;
+        currentRender->Print();
+    }
 }
 
 
@@ -62,33 +73,57 @@ int main(){
         //currentRender->SetBeans('#', lima::color(dist(rng), dist(rng), dist(rng)), lima::color(dist(rng), dist(rng), dist(rng)), myStyle);
         //currentRender->Print();
     //}
+    std::jthread renderThread(renderThreadLoop); // Start rendering
     
-    for(int i = 0; i <= 255; i++){
-        currentRender->SetBeans('#', lima::color(), lima::color(255, 0, i), myStyle);
-        currentRender->Print();
-    }
-    for(int i = 0; i <= 255; i++){
-        currentRender->SetBeans('#', lima::color(), lima::color(255-i, 0, 255), myStyle);
-        currentRender->Print();
-    }
-    for(int i = 0; i <= 255; i++){
-        currentRender->SetBeans('#', lima::color(), lima::color(0, i, 255), myStyle);
-        currentRender->Print();
-    }
-    for(int i = 0; i <= 255; i++){
-        currentRender->SetBeans('#', lima::color(), lima::color(0, 255, 255-i), myStyle);
-        currentRender->Print();
-    }
-    for(int i = 0; i <= 255; i++){
-        currentRender->SetBeans('#', lima::color(), lima::color(i, 255, 0), myStyle);
-        currentRender->Print();
-    }
-    for(int i = 0; i <= 255; i++){
-        currentRender->SetBeans('#', lima::color(), lima::color(255, 255-i, 0), myStyle);
-        currentRender->Print();
+    for(uint i = 0; i <= 100; i++){
+        lima::bean* curBean = currentRender->getBean(i, i);
+        if(curBean != nullptr){
+            curBean->setBG(i*25, i*25, i*25);
+            curBean->setChar(' ');
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        }
     }
 
+    /*for(int i = 0; i <= 255; i++){
+        currentRender->SetBeans('#', lima::color(255, 0, i), lima::color(255, 0, i), myStyle);
+        currentRender->getBean(1, 1)->setBG(100, 100, 100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        //currentRender->Print();
+    }
+    for(int i = 0; i <= 255; i++){
+        currentRender->SetBeans('#', lima::color(255-i, 0, 255), lima::color(255-i, 0, 255), myStyle);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        //currentRender->Print();
+    }
+    for(int i = 0; i <= 255; i++){
+        currentRender->SetBeans('#', lima::color(0, i, 255), lima::color(0, i, 255), myStyle);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        //currentRender->Print();
+    }
+    for(int i = 0; i <= 255; i++){
+        currentRender->SetBeans('#', lima::color(0, 255, 255-i), lima::color(0, 255, 255-i), myStyle);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        //currentRender->Print();
+    }
+    for(int i = 0; i <= 255; i++){
+        currentRender->SetBeans('#', lima::color(i, 255, 0), lima::color(i, 255, 0), myStyle);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        //currentRender->Print();
+    }
+    for(int i = 0; i <= 255; i++){
+        currentRender->SetBeans('#', lima::color(255, 255-i, 0), lima::color(255, 255-i, 0), myStyle);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        //std::this_thread::sleep_for(std::chrono::microseconds(1));
+        //currentRender->Print();
+    }*/
+
+    //renderThread.join(); // Wait for thread to end
+    renderThread.request_stop();
+    
     delete currentRender;
+
+	
+    
     return 0;
     
     
@@ -99,7 +134,7 @@ int main(){
     while (1){
         c = '\0';
         read(STDIN_FILENO, &c, 1);
-        currentRender->Print();
+        //currentRender->Print();
         if(c == 0){
             continue;
         }
@@ -125,11 +160,15 @@ int main(){
             sleep(5);
             continue;
         }
-        if (c == 'q') break;
+        if (c == 'q'){
+            currentRender->running = false;
+            break;
+        }
         currentRender->SetBeans('#', myBGColor, myFGColor, myStyle);
     }
-    
+    currentRender->running = false;
+    renderThread.join(); // Wait for thread to end
     delete currentRender;
-    return 0;
-    */
+    return 0;*/
+    
 }
