@@ -30,7 +30,7 @@ namespace lima{
                 for(auto& b : beans){
                     float xGL = (float)2 * (float)((float)xBuf - (float)xPos)/((float)xSz) - 1;
                     float yGL = (float)2 * (float)((float)yBuf - (float)yPos)/((float)ySz) - 1;
-                    func(b, xBuf, yBuf, xGL, yGL, time);
+                    if(b != nullptr) func(b, xBuf, yBuf, xGL, yGL, time);
                     xBuf++;
                     if(xBuf >= xPos + xSz){
                         xBuf = xPos;

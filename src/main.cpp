@@ -75,7 +75,7 @@ int main(){
         //currentRender->Print();
     //}
 
-    lima::screen* scrPtr = currentRender->CreateScreen(1, 1, 30, 30);
+    lima::screen* scrPtr = currentRender->CreateScreen(1, 1, 253, 62);
 
     scrPtr->setFunc([](lima::bean* b, uint xPos, uint yPos, float xGL, float yGL, float time){
         float x = ((xGL + 1)/2) * 255;
