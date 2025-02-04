@@ -14,6 +14,7 @@ namespace lima{
         beans = new bean[beanCount];
         streamBuffer = new basic_str((beanCount * 55) + 3);
         resized = false;
+        invisibleBean = new bean;
     }
 
     render::~render(){        
@@ -24,6 +25,7 @@ namespace lima{
         	delete e;
         }
 		delete globalScreen;
+        delete invisibleBean;
     }
 
 
@@ -79,15 +81,22 @@ namespace lima{
     }
 
 
+
+
     lima::screen* render::CreateScreen(uint x, uint y, uint szX, uint szY){
     	// 1,1 is the top left corner
         if(szX <= 0 || szY <= 0) { return nullptr; }
         if(x < 1 || y < 1) { return nullptr; }
-        if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) { return nullptr; }
+        lima::screen* scrPtr = new lima::screen(x, y, szX, szY);
+        for(uint i = y; i < y + szY; i++){
+            for(uint j = x; j < x + szX; j++){
+                scrPtr->beans.push_back(getBean(j, i));
+            }
+        }
 
         // Screen is inside terminal window and just needs beans appropriately given
-
+        renderScreens.push_back(scrPtr);
         
-        return nullptr;
+        return scrPtr;
     }
 }

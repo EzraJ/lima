@@ -47,6 +47,7 @@ namespace lima{
             std::mutex modifyMutex;
             std::mutex renderMutex;
         private:
+            bean* invisibleBean; // Bean that is to be never rendered.
             uint beanCount;
             Vector2 terminalSize;
             std::vector<lima::screen*> renderScreens;
