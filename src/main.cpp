@@ -27,6 +27,7 @@ void onTerminalResize(int signum [[maybe_unused]]){
 void renderThreadLoop(std::stop_token stopToken){
     while(!stopToken.stop_requested()){
         if(currentRender == nullptr) continue;
+        currentRender->Process();
         currentRender->Print();
     }
 }
@@ -73,16 +74,35 @@ int main(){
         //currentRender->SetBeans('#', lima::color(dist(rng), dist(rng), dist(rng)), lima::color(dist(rng), dist(rng), dist(rng)), myStyle);
         //currentRender->Print();
     //}
+
+    lima::screen* scrPtr = currentRender->CreateScreen(1, 1, 30, 30);
+
+    scrPtr->setFunc([](lima::bean* b, uint xPos, uint yPos, float xGL, float yGL, float time){
+        float x = ((xGL + 1)/2) * 255;
+        float y = ((yGL + 1)/2) * 255;
+        //b->setBG((int)x, (int)y, time);
+        b->setBG((int)x, (int)y, time);
+        //b->setBG(100*xGL, 30*yGL, 20);
+        b->setChar(' ');
+        xPos++;
+        yPos++;
+        time++;
+        yGL++;
+        xGL++;
+    });
+
     std::jthread renderThread(renderThreadLoop); // Start rendering
     
-    for(uint i = 0; i <= 100; i++){
+    /*for(uint i = 0; i <= 100; i++){
         lima::bean* curBean = currentRender->getBean(i, i);
         if(curBean != nullptr){
             curBean->setBG(i*25, i*25, i*25);
             curBean->setChar(' ');
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
-    }
+    }*/
+
+    std::this_thread::sleep_for(std::chrono::seconds(10));
 
     /*for(int i = 0; i <= 255; i++){
         currentRender->SetBeans('#', lima::color(255, 0, i), lima::color(255, 0, i), myStyle);

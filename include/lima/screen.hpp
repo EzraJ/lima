@@ -22,9 +22,21 @@ namespace lima{
                 funcSet = true;
             }
 
-            void Process(float time){
+            void Process(float time = 0.0f){
                 if(!funcSet) return;
                 
+                uint xBuf = xPos;
+                uint yBuf = yPos;
+                for(auto& b : beans){
+                    float xGL = (float)2 * (float)((float)xBuf - (float)xPos)/((float)xSz) - 1;
+                    float yGL = (float)2 * (float)((float)yBuf - (float)yPos)/((float)ySz) - 1;
+                    func(b, xBuf, yBuf, xGL, yGL, time);
+                    xBuf++;
+                    if(xBuf >= xPos + xSz){
+                        xBuf = xPos;
+                        yBuf++;
+                    }
+                }
                 
             }
 

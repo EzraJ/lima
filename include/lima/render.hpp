@@ -25,6 +25,8 @@ namespace lima{
         
             void Resize();
 
+            void Process();
+
             void Print();
 
             void SetBeans(char c, color bg, color fg, style s);

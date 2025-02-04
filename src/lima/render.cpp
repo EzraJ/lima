@@ -29,6 +29,15 @@ namespace lima{
     }
 
 
+    void render::Process(){
+        if(resized) Resize();
+        modifyMutex.lock();
+        for(auto& e : renderScreens){
+            e->Process();
+        }
+        modifyMutex.unlock();
+    }
+
     void render::Print(){
         if(resized) Resize();
         renderMutex.lock();
