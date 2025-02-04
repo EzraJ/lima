@@ -25,10 +25,14 @@ namespace terminal{
         // We need to enter our alternative buffer(if we haven't already)
         // Then clear it up, show the cursor again, and return to the main buffer
 
-        std::cout << ANSI::ENTER_ALT_BUFFER;
+        /*std::cout << ANSI::ENTER_ALT_BUFFER;
         std::cout << ANSI::CLEAR_SCREEN;
         std::cout << ANSI::VISIBLE_CURSOR;
-        std::cout << ANSI::EXIT_ALT_BUFFER;
+        std::cout << ANSI::EXIT_ALT_BUFFER;*/
+        write(STDOUT_FILENO, ANSI::ENTER_ALT_BUFFER.c_str(), ANSI::ENTER_ALT_BUFFER.length());
+        write(STDOUT_FILENO, ANSI::CLEAR_SCREEN.c_str(), ANSI::CLEAR_SCREEN.length());
+        write(STDOUT_FILENO, ANSI::VISIBLE_CURSOR.c_str(), ANSI::VISIBLE_CURSOR.length());
+        write(STDOUT_FILENO, ANSI::EXIT_ALT_BUFFER.c_str(), ANSI::EXIT_ALT_BUFFER.length());
 
 
         tcsetattr(STDOUT_FILENO, TCSANOW, &initialTerm);
