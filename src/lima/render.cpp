@@ -15,6 +15,7 @@ namespace lima{
         streamBuffer = new basic_str((beanCount * 55) + 3);
         resized = false;
         invisibleBean = new bean;
+        timePt = std::chrono::high_resolution_clock::now();
     }
 
     render::~render(){        
@@ -33,7 +34,7 @@ namespace lima{
         if(resized) Resize();
         modifyMutex.lock();
         for(auto& e : renderScreens){
-            e->Process();
+            e->Process((float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f));
         }
         modifyMutex.unlock();
     }

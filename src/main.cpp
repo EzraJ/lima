@@ -81,7 +81,7 @@ int main(){
         float x = ((xGL + 1)/2) * 255;
         float y = ((yGL + 1)/2) * 255;
         //b->setBG((int)x, (int)y, time);
-        b->setBG((int)x, (int)y, time);
+        b->setBG((int)x, (int)y, (sin(time)+1.0)/2.0 * 255);
         //b->setBG(100*xGL, 30*yGL, 20);
         b->setChar(' ');
         xPos++;

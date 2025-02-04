@@ -5,6 +5,7 @@
 
 #pragma once
 #include <mutex>
+#include <chrono>
 #include <exception>
 #include <memory>
 #include <stdlib.h>
@@ -54,7 +55,7 @@ namespace lima{
             Vector2 terminalSize;
             std::vector<lima::screen*> renderScreens;
             screen* globalScreen;
-            
+            std::chrono::time_point<std::chrono::high_resolution_clock> timePt;
     };
 
 }
