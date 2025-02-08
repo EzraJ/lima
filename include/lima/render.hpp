@@ -38,6 +38,8 @@ namespace lima{
 
             lima::screen* CreateScreen(uint x, uint y, uint szX, uint szY);
 
+            void resizeScreen(screen& in);
+
             bean* getBean(uint x, uint y){
                 if(x <= 0 || y <= 0) {return nullptr;}
                 if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) { return nullptr; }
