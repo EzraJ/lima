@@ -16,23 +16,28 @@ namespace lima{
         resized = false;
         invisibleBean = new bean;
         timePt = std::chrono::high_resolution_clock::now();
+        globalScreen = CreateScreen(1, 1, terminalSize.x, terminalSize.y);
+        
     }
 
     render::~render(){        
-        delete[] beans;
-        delete streamBuffer;
-
+        delete globalScreen;
+        
         for(auto& e : renderScreens){
-        	delete e;
+            if(e == globalScreen) continue;
+            delete e;
         }
-		delete globalScreen;
+        
+        delete[] beans;
         delete invisibleBean;
+        delete streamBuffer;
     }
-
+    
 
     void render::Process(){
         if(resized) Resize();
         modifyMutex.lock();
+        //globalScreen->Process((float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f));
         for(auto& e : renderScreens){
             e->Process((float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f));
         }
@@ -88,7 +93,11 @@ namespace lima{
         for(auto& e : renderScreens){
             resizeScreen(*e);
         }
-
+        globalScreen->xSz = sz.x;
+        globalScreen->ySz = sz.y;
+        
+        resizeScreen(*globalScreen);
+        
         resized = false;
 
         modifyMutex.unlock();

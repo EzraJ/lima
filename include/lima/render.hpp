@@ -36,14 +36,15 @@ namespace lima{
             void resizeScreen(screen& in);
 
             bean* getBean(uint x, uint y){
-                if(x <= 0 || y <= 0) {return nullptr;}
-                if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) { return nullptr; }
+                if(x <= 0 || y <= 0) {return invisibleBean;}
+                if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) { return invisibleBean; }
                 return &(beans[x - 1 + (y-1) * terminalSize.x]);
             }
 
             bool resized;
             bean* beans;
             basic_str* streamBuffer;
+            screen* globalScreen;
             std::mutex modifyMutex;
             std::mutex renderMutex;
         private:
@@ -51,7 +52,6 @@ namespace lima{
             uint beanCount;
             Vector2 terminalSize;
             std::vector<lima::screen*> renderScreens;
-            screen* globalScreen;
             std::chrono::time_point<std::chrono::high_resolution_clock> timePt;
     };
 

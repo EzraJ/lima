@@ -41,7 +41,7 @@ namespace lima{
             }
 
 			~screen(){
-				
+				beans.clear();
 			}
 
             uint xPos;

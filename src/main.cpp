@@ -75,9 +75,9 @@ int main(){
         //currentRender->Print();
     //}
 
-    lima::screen* scrPtr = currentRender->CreateScreen(1, 1, 273, 58);
+    //lima::screen* scrPtr = currentRender->CreateScreen(1, 1, 273, 58);
 
-    scrPtr->setFunc([](lima::bean* b[[maybe_unused]], uint xPos[[maybe_unused]], uint yPos[[maybe_unused]], float xGL[[maybe_unused]], float yGL[[maybe_unused]], float time[[maybe_unused]]){
+    currentRender->globalScreen->setFunc([](lima::bean* b[[maybe_unused]], uint xPos[[maybe_unused]], uint yPos[[maybe_unused]], float xGL[[maybe_unused]], float yGL[[maybe_unused]], float time[[maybe_unused]]){
         float x = ((xGL + 1)/2) * 255;
         float y = ((yGL + 1)/2) * 255;
         //b->setBG((int)x, (int)y, time);
@@ -138,7 +138,7 @@ int main(){
     
     delete currentRender;
 
-    terminal::restoreTerminal();
+    //terminal::restoreTerminal();
     
     return 0;
     
