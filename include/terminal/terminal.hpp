@@ -24,11 +24,6 @@ namespace terminal{
     inline void restoreTerminal(){
         // We need to enter our alternative buffer(if we haven't already)
         // Then clear it up, show the cursor again, and return to the main buffer
-
-        /*std::cout << ANSI::ENTER_ALT_BUFFER;
-        std::cout << ANSI::CLEAR_SCREEN;
-        std::cout << ANSI::VISIBLE_CURSOR;
-        std::cout << ANSI::EXIT_ALT_BUFFER;*/
         write(STDOUT_FILENO, ANSI::ENTER_ALT_BUFFER.c_str(), ANSI::ENTER_ALT_BUFFER.length());
         write(STDOUT_FILENO, ANSI::CLEAR_SCREEN.c_str(), ANSI::CLEAR_SCREEN.length());
         write(STDOUT_FILENO, ANSI::VISIBLE_CURSOR.c_str(), ANSI::VISIBLE_CURSOR.length());
@@ -125,10 +120,6 @@ namespace terminal{
 
         // Now that we have some safeguards in place, we need to
         // enter the terminals alternative buffer, and we've initialized
-        /*std::cout << ANSI::ENTER_ALT_BUFFER;
-        std::cout << ANSI::INVISIBLE_CURSOR;
-        std::cout << ANSI::CLEAR_SCREEN;
-        std::cout << ANSI::CURSOR_ZERO;*/
 
         write(STDOUT_FILENO, ANSI::ENTER_ALT_BUFFER.c_str(), ANSI::ENTER_ALT_BUFFER.length());
         write(STDOUT_FILENO, ANSI::INVISIBLE_CURSOR.c_str(), ANSI::INVISIBLE_CURSOR.length());

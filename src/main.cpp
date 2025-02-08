@@ -77,18 +77,14 @@ int main(){
 
     lima::screen* scrPtr = currentRender->CreateScreen(1, 1, 273, 58);
 
-    scrPtr->setFunc([](lima::bean* b, uint xPos, uint yPos, float xGL, float yGL, float time){
+    scrPtr->setFunc([](lima::bean* b[[maybe_unused]], uint xPos[[maybe_unused]], uint yPos[[maybe_unused]], float xGL[[maybe_unused]], float yGL[[maybe_unused]], float time[[maybe_unused]]){
         float x = ((xGL + 1)/2) * 255;
         float y = ((yGL + 1)/2) * 255;
         //b->setBG((int)x, (int)y, time);
         b->setBG((int)x, (int)y, (sin(time)+1.0)/2.0 * 255);
         //b->setBG(100*xGL, 30*yGL, 20);
         b->setChar(' ');
-        xPos++;
-        yPos++;
-        time++;
-        yGL++;
-        xGL++;
+        
     });
 
     std::jthread renderThread(renderThreadLoop); // Start rendering
@@ -142,7 +138,7 @@ int main(){
     
     delete currentRender;
 
-	
+    terminal::restoreTerminal();
     
     return 0;
     

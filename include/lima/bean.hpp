@@ -20,8 +20,6 @@ namespace lima{
     };
 
 
-
-    // TODO: Make this 2 bytes for memory optimization perhaps?
     struct style{
         //bool reset = false; // Goes at the end of the sequence [0m
         bool bold = false; // 1m ~ 22m

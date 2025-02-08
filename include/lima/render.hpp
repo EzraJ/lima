@@ -1,8 +1,3 @@
-// I wanted to make this a class, I really did. But having to interface with sigaction
-// and other terminal stuff makes it not a good idea. I thought about making it a singleton so it
-// could atleast be a class and more "modern C++", but at that point this would be easier to understand and
-// have less bugs
-
 #pragma once
 #include <mutex>
 #include <chrono>

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 // Useful ANSI escape codes with helper stuff
 // Not using macros because for now I believe having the values
@@ -15,9 +16,6 @@ namespace ANSI{
     struct xy{ // Should probably rename this but whatever it's basically only used here and terminal.hpp
         int x, y;
     };
-    // I would like to make this a vector2 class impl, but I want to keep
-    // ansi.hpp separate from lima. Will just have to do annoying translations
-    // in lima code
     
     // Using hex instead of C-style
     const std::string BEL = "\0x07"; // Terminal Bell (\a)
@@ -109,7 +107,7 @@ namespace ANSI{
 
     inline const xy CURSOR_POSITION(){
         // Requires canonical mode and echo to be off to properly function
-        std::cout << QUERY_CURSOR_POSITION;
+        write(STDOUT_FILENO, QUERY_CURSOR_POSITION.c_str(), QUERY_CURSOR_POSITION.length());
         std::string buf;
         // Format returned is "\0x1B[#;#R"
         std::getline(std::cin, buf, 'R');
