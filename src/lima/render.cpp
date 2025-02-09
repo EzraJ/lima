@@ -130,4 +130,11 @@ namespace lima{
         
         return scrPtr;
     }
+
+    lima::bean* render::getBean(uint x, uint y){
+        if(x <= 0 || y <= 0) {return invisibleBean;};
+        if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) {return invisibleBean;}
+        return &(beans[x - 1 + (y-1) * terminalSize.x]);
+    }
+
 }
