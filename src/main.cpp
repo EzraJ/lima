@@ -14,7 +14,7 @@
 #include <chrono>
 
 lima::render* currentRender = nullptr;
-
+lima::keyboard currentKeyboard = nullptr;
 
 
 
@@ -29,6 +29,13 @@ void renderThreadLoop(std::stop_token stopToken){
         if(currentRender == nullptr) continue;
         currentRender->Process();
         currentRender->Print();
+    }
+}
+
+void keyboardThreadLoop(std::stop_token stopToken){
+    while(!stopTOken.stop_requested()){
+        if(currentKeyboard == nullptr) continue;
+        currentKeyboard->Read();
     }
 }
 
@@ -47,14 +54,17 @@ int main(int argc, char** argv){
 
     // and then have fun
     currentRender = new lima::render();
+    currentKeyboard = new lima::keyboard();
 
     std::jthread renderThread(renderThreadLoop); // Start rendering
+    std::jthread keyboardThread(keyboardThreadLoop);
     
     int game_result = game_main(argc, argv, currentRender);
     
-
+    keyboardThread.request_stop();
     renderThread.request_stop();
     
+    delete currentKeyboard;
     delete currentRender;
         
     return game_result;
