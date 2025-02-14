@@ -14,7 +14,7 @@
 #include <chrono>
 
 lima::render* currentRender = nullptr;
-lima::keyboard currentKeyboard = nullptr;
+lima::keyboard* currentKeyboard = nullptr;
 
 
 
