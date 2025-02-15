@@ -27,6 +27,14 @@ namespace lima{
         for(auto& e : callbacks){
             e(lastPressed);
         }
+    }
+
+    keyboard::keyboard(){
 
     }
+
+    keyboard::~keyboard(){
+        
+    }
+
 }

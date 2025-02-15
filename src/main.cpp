@@ -8,6 +8,7 @@
 #include "lima/bean.hpp"
 #include "lima/render.hpp"
 #include "game/game_main.hpp" // game_main(int argc, char** argv)
+#include "lima/keyboard.hpp"
 #include <thread>
 #include <stop_token>
 
@@ -33,7 +34,7 @@ void renderThreadLoop(std::stop_token stopToken){
 }
 
 void keyboardThreadLoop(std::stop_token stopToken){
-    while(!stopTOken.stop_requested()){
+    while(!stopToken.stop_requested()){
         if(currentKeyboard == nullptr) continue;
         currentKeyboard->Read();
     }

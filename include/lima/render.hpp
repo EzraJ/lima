@@ -10,6 +10,7 @@
 #include "lima/vector2.hpp"
 #include "lima/basic_str.hpp"
 #include "lima/screen.hpp"
+#include "lima/resize/resize.hpp"
 #include <random>
 
 namespace lima{
@@ -36,6 +37,8 @@ namespace lima{
             void resizeScreen(screen& in);
 
             bean* getBean(uint x, uint y);
+            std::vector<lima::bean*> getBeans(uint x, uint y, uint xPos, uint yPos);
+            void getBeans(std::vector<bean*>& inVec, uint x, uint y, uint xPos, uint yPos);
 
             bool resized;
             bean* beans;
@@ -48,6 +51,7 @@ namespace lima{
             uint beanCount;
             Vector2 terminalSize;
             std::vector<lima::screen*> renderScreens;
+            std::vector<lima::resizable*> renderResizables;
             std::chrono::time_point<std::chrono::high_resolution_clock> timePt;
     };
 

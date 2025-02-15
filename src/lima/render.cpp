@@ -102,8 +102,32 @@ namespace lima{
 
         modifyMutex.unlock();
         renderMutex.unlock();
+
+        for(auto& e : renderResizables){
+            e->Resize(this);
+        }
+
     }
 
+    std::vector<lima::bean*> render::getBeans(uint x, uint y, uint xPos, uint yPos){
+        std::vector<lima::bean*> buf;
+        buf.clear();
+        for(uint i = yPos; i < yPos + y; i++){
+            for(uint j = xPos; j < xPos + x; j++){
+                buf.push_back(getBean(j, i));
+            }
+        }
+        return buf;
+    }
+
+    void render::getBeans(std::vector<lima::bean*>& inVec, uint x, uint y, uint xPos, uint yPos){
+        inVec.clear();
+        for(uint i = yPos; i < yPos + y; i++){
+            for(uint j = xPos; j < xPos + x; j++){
+                inVec.push_back(getBean(j, i));
+            }
+        }
+    }
 
     void render::resizeScreen(screen& in){
         in.beans.clear();
@@ -131,9 +155,13 @@ namespace lima{
         return scrPtr;
     }
 
+    
+
     lima::bean* render::getBean(uint x, uint y){
+        modifyMutex.lock();
         if(x <= 0 || y <= 0) {return invisibleBean;};
         if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) {return invisibleBean;}
+        modifyMutex.unlock();
         return &(beans[x - 1 + (y-1) * terminalSize.x]);
     }
 
