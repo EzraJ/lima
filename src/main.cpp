@@ -65,6 +65,9 @@ int main(int argc, char** argv){
     
     keyboardThread.request_stop();
     renderThread.request_stop();
+
+    renderThread.join(); // On fast terminal simulators(typically gpu rendered ones) closing the thread later causes a segfault
+    keyboardThread.join();
     
     delete currentKeyboard;
     delete currentRender;
