@@ -6,6 +6,8 @@
 #include "lima/ansi.hpp"
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"
+#include "lima/Resizable.hpp"
+#include "lima/Input.hpp"
 #include "lima/render.hpp"
 #include "game/game_main.hpp" // game_main(int argc, char** argv)
 #include "lima/keyboard.hpp"
@@ -16,7 +18,7 @@
 
 lima::render* currentRender = nullptr;
 lima::keyboard* currentKeyboard = nullptr;
-
+std::mutex sharedMutex;
 
 
 void onTerminalResize(int signum [[maybe_unused]]){
@@ -60,7 +62,7 @@ int main(int argc, char** argv){
     std::jthread renderThread(renderThreadLoop); // Start rendering
     std::jthread keyboardThread(keyboardThreadLoop);
     
-    int game_result = game_main(argc, argv, currentRender);
+    int game_result = game_main(argc, argv, currentRender, currentKeyboard);
     
     keyboardThread.request_stop();
     renderThread.request_stop();
