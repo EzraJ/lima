@@ -18,7 +18,6 @@
 
 lima::render* currentRender = nullptr;
 lima::keyboard* currentKeyboard = nullptr;
-std::mutex sharedMutex;
 
 
 void onTerminalResize(int signum [[maybe_unused]]){

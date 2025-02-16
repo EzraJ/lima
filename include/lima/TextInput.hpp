@@ -76,7 +76,6 @@ namespace lima{
             uint xSz;
             uint ySz;
             std::vector<bean*> beans;
-            std::mutex resizeMutex;
             lima::render* curRender;
             lima::keyboard* curKeyboard;
 
