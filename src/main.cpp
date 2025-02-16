@@ -71,7 +71,7 @@ int main(int argc, char** argv){
     
     delete currentKeyboard;
     delete currentRender;
-        
+	terminal::restoreTerminal();        
     return game_result;
     
 
