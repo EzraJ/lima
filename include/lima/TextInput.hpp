@@ -32,7 +32,6 @@ namespace lima{
             }
 
             void ProcessInput(char c[[maybe_unused]]) override {
-                if(curRender->resized == true) return;
                 if(c == '\r'){
                     enterString = curString;
                     return;

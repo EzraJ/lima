@@ -13,11 +13,7 @@ int game_main(int argc[[maybe_unused]], char** argv[[maybe_unused]], lima::rende
         //b->setChar(' ');
 	});
 	
-    //std::this_thread::sleep_for(std::chrono::seconds(3));
-
 	lima::TextInput* myInp = new lima::TextInput(currentRender, currentKeyboard, 10, 10, 5, 5);
-	//std::this_thread::sleep_for(std::chrono::seconds(3));
-	//myInp->EnteredText();
 	while(myInp->EnteredText() != "quit"){
 
 	}
