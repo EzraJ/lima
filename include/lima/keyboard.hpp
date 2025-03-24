@@ -6,10 +6,8 @@
 
 
 namespace lima{
-    
     class keyboard{
         public:
-            
             keyboard();
             ~keyboard();
             
@@ -26,6 +24,4 @@ namespace lima{
             std::mutex addMutex;
             
     };
-
-
 }

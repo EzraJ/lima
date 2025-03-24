@@ -13,6 +13,4 @@ namespace lima{
             int x;
             int y;
     };
-
-
 }

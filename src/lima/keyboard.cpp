@@ -28,8 +28,6 @@ namespace lima{
                 e->ProcessInput(lastPressed);
             }
         }
-
-
         // Cycle through all callback functions for onpress events
     }
 

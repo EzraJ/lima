@@ -34,6 +34,8 @@ namespace lima{
 
             lima::screen* CreateScreen(uint x, uint y, uint szX, uint szY);
 
+            void DeleteScreen(lima::screen* ptr);
+
             void resizeScreen(screen& in);
 
             bean* getBean(uint x, uint y);
@@ -56,5 +58,4 @@ namespace lima{
             std::vector<lima::Resizable*> renderResizables;
             std::chrono::time_point<std::chrono::high_resolution_clock> timePt;
     };
-
 }

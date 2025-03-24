@@ -7,31 +7,35 @@
 #include "lima/render.hpp"
 
 namespace lima{
-
     class TextInput : Resizable, Input{
         public:
             TextInput(lima::render* rend, lima::keyboard* key, uint xIn, uint yIn, uint xSzIn, uint ySzIn){
-                curRender = rend;
-                curKeyboard = key;
-                rend->AddResizable((Resizable*)this);
-                key->AddInput((Input*)this);
+                currentRender = rend;
+                currentKeyboard = key;
+                currentRender->AddResizable((Resizable*)this);
+                currentKeyboard->AddInput((Input*)this);
                 x = xIn;
                 y = yIn;
                 xSz = xSzIn;
                 ySz = ySzIn;
-                rend->getBeans(beans, x, y, xSz, ySz);
                 enterString = "";
                 curPos = 0;
                 curString = "";
+
+                ResizeBeans();
                 for(auto& b : beans){
                     b->setChar(' ');
                 }
+
+                InputActive = false;
             }
             ~TextInput(){
-                
+                beans.clear();
             }
 
-            void ProcessInput(char c[[maybe_unused]]) override {
+
+            void ProcessInput(char c) override {
+                if(!InputActive) return;
                 if(c == '\r'){
                     enterString = curString;
                     return;
@@ -51,19 +55,15 @@ namespace lima{
                 }
             }
 
-            
-
             std::string EnteredText(){
                 return enterString;
             }
 
             void Resize() override {
-                beans.clear();
-                curRender->getBeans(beans, x, y, xSz, ySz);
+                ResizeBeans();
                 for(auto& e : beans){
                     e->setChar(' ');
                 }
-                
                 for(uint i = 0; i < curPos; i++){
                     beans[i]->setChar(curString[i]);
                 }
@@ -71,16 +71,7 @@ namespace lima{
 
         private:
             uint curPos;
-            uint x;
-            uint y;
-            uint xSz;
-            uint ySz;
-            std::vector<bean*> beans;
-            lima::render* curRender;
-            lima::keyboard* curKeyboard;
-
             std::string enterString;
             std::string curString;
     };
-
 }

@@ -2,15 +2,13 @@
 #include "lima/basic_str.hpp"
 
 namespace lima{
-    basic_str::basic_str(size_t nbr_alloc)
-    {
+    basic_str::basic_str(size_t nbr_alloc){
         m_nbr_alloc = nbr_alloc;
         m_size = 0;
         m_capacity = 0;
         m_str = (char*)malloc(nbr_alloc * sizeof(char));
         m_capacity = nbr_alloc;
     }
-
 
     void basic_str::clear(){
         m_size = 0;
@@ -20,7 +18,6 @@ namespace lima{
     {
         free(m_str);
     }
-
 
     void basic_str::add(const char* str, size_t nbr)
     {

@@ -54,7 +54,6 @@ namespace lima{
             std::vector<lima::bean*> beans;
 
         private:
-
             std::function<void(lima::bean*, uint, uint, float, float, float)> func;
 
     };

@@ -1,8 +1,6 @@
 // Nice clean include file for ANSI-related stuff.
 // Want to keep it lima-free so it can be used regardless of location
 #pragma once
-
-
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -120,7 +118,5 @@ namespace ANSI{
         }
 
         return ret;
-
-    }
-    
+    }   
 }

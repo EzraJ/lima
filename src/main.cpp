@@ -45,6 +45,8 @@ void keyboardThreadLoop(std::stop_token stopToken){
 int main(int argc, char** argv){
 
     terminal::initializeTerminal(); // Enter raw mode
+
+    // Setup interrupt handlers
     struct sigaction saSize;
     saSize.sa_handler = onTerminalResize;
     sigemptyset(&saSize.sa_mask);

@@ -9,7 +9,6 @@
 
 
 namespace lima{
-
     struct color{
         unsigned char r,g,b;
         color(unsigned char red = 0, unsigned char green = 0, unsigned char blue = 0){
@@ -18,7 +17,6 @@ namespace lima{
             b = blue;
         }
     };
-
 
     struct style{
         //bool reset = false; // Goes at the end of the sequence [0m
@@ -42,8 +40,6 @@ namespace lima{
         }
     };
     
-
-
     // STRIKE THRU 0
     // INVIS 1
     // INVERSE 2
@@ -61,9 +57,9 @@ namespace lima{
                 s = sIn;
             }
             ~bean(){
+                
             }
 
-            
             void CStrAdd(basic_str& ptr){
                 ptr.add("\x1b[", 2);
 
@@ -147,8 +143,6 @@ namespace lima{
                 }
             }
 
-
-
             void setFG(int r, int g, int b){
                 setFG(color(r, g, b));
             }
@@ -199,6 +193,4 @@ namespace lima{
             style s;
             char c;
     };
-
-
 }

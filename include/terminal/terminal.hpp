@@ -1,8 +1,3 @@
-// TODO(I know this is before the first commit but I should still write this down)
-// [] Windows cross platform
-// [] Terminal resize incoporated with rendering engine(doesn't have to be here)
-
-
 #pragma once
 // Manage all of the annoyances of the terminal, subtle linux stuff, and
 // some info
@@ -29,7 +24,6 @@ namespace terminal{
         write(STDOUT_FILENO, ANSI::VISIBLE_CURSOR.c_str(), ANSI::VISIBLE_CURSOR.length());
         write(STDOUT_FILENO, ANSI::EXIT_ALT_BUFFER.c_str(), ANSI::EXIT_ALT_BUFFER.length());
 
-
         tcsetattr(STDOUT_FILENO, TCSANOW, &initialTerm);
     }
 
@@ -46,9 +40,6 @@ namespace terminal{
         exit(1); // Should call restoreTerminal()
     }
 
-
-
-        // TODO: Add windows compatability 
     inline void initializeTerminal(){
         struct termios limaTerm;
         tcgetattr(STDOUT_FILENO, &limaTerm);

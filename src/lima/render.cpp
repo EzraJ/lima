@@ -17,12 +17,11 @@ namespace lima{
         invisibleBean = new bean;
         timePt = std::chrono::high_resolution_clock::now();
         globalScreen = CreateScreen(1, 1, terminalSize.x, terminalSize.y);
-        
     }
 
-    render::~render(){        
+    render::~render(){
+        modifyMutex.lock();  
         delete globalScreen;
-        
         for(auto& e : renderScreens){
             if(e == globalScreen) continue;
             delete e;
@@ -31,6 +30,7 @@ namespace lima{
         delete[] beans;
         delete invisibleBean;
         delete streamBuffer;
+        modifyMutex.unlock();
     }
     
 
@@ -62,7 +62,6 @@ namespace lima{
         if(resized) Resize();
         modifyMutex.lock();
         
-        if(resized) Resize();
         for(uint i = 0; i <= beanCount - 1; i++){
             beans[i].SetBean(c, bg, fg, s);
         }
@@ -81,6 +80,7 @@ namespace lima{
     void render::Resize(){
         modifyMutex.lock();
         renderMutex.lock();
+
         Vector2 sz = lima::LimaTermSize();
         beanCount = sz.x * sz.y;
         delete[] beans;
@@ -104,10 +104,8 @@ namespace lima{
         
         resized = false;
         
-
         modifyMutex.unlock();
         renderMutex.unlock();
-
     }
 
     std::vector<lima::bean*> render::getBeans(uint xPos, uint yPos, uint xSz, uint ySz){
@@ -155,12 +153,22 @@ namespace lima{
         }
 
         // Screen is inside terminal window and just needs beans appropriately given
+        modifyMutex.lock();
         renderScreens.push_back(scrPtr);
-        
+        modifyMutex.unlock();
+
         return scrPtr;
     }
 
-    
+    void render::DeleteScreen(lima::screen* ptr){
+        modifyMutex.lock();
+
+        renderScreens.erase(std::remove(renderScreens.begin(), renderScreens.end(), ptr), renderScreens.end());
+
+        delete ptr;
+
+        modifyMutex.unlock();
+    }
 
     lima::bean* render::getBean(uint x, uint y){
         if(x <= 0 || y <= 0) {return invisibleBean;};
