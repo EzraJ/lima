@@ -5,8 +5,10 @@ namespace lima{
         public:
             virtual void Resize()=0;
             virtual void ResizeBeans(){
-                beans.clear();
-                currentRender->getBeans(beans, x, y, xSz, ySz);
+                if(currentRender != nullptr){
+                    beans.clear();
+                    currentRender->getBeans(beans, x, y, xSz, ySz);
+                }
             }
             uint x;
             uint y;
