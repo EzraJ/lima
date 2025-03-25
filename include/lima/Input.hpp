@@ -3,8 +3,9 @@
 namespace lima{
     class Input{
         public:
+            Input(){}
+            virtual ~Input(){}
             virtual void ProcessInput(char c) = 0;
-            lima::keyboard* currentKeyboard;
             bool InputActive;
     };
 

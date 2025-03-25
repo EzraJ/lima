@@ -4,7 +4,7 @@
 
 int game_main(int argc, char** argv, lima::render* currentRender, lima::keyboard* currentKeyboard){
 
-	currentRender->globalScreen->setFunc([](lima::bean* b, uint xPos, uint yPos, float xGL, float , float time){
+	currentRender->globalScreen->setFunc([](lima::bean* b, uint xPos, uint yPos, float xGL, float yGL, float time){
 	    float x = ((xGL + 1)/2) * 255;
 	    float y = ((yGL + 1)/2) * 255;
 	    b->setBG((int)x, (int)y, (sin(time)+1.0)/2.0 * 255);
@@ -12,7 +12,7 @@ int game_main(int argc, char** argv, lima::render* currentRender, lima::keyboard
 	});
 	
 	lima::TextInput* myInp = new lima::TextInput(currentRender, currentKeyboard, 10, 10, 5, 5);
-	myInp.Active = true;
+	myInp->SetActive(true);
 	while(myInp->EnteredText() != "quit"){
 
 	}

@@ -1,20 +1,19 @@
 #pragma once
 
+#include <vector>
+#include "lima/bean.hpp"
+
 namespace lima{
     class Resizable{
         public:
             virtual void Resize()=0;
-            virtual void ResizeBeans(){
-                if(currentRender != nullptr){
-                    beans.clear();
-                    currentRender->getBeans(beans, x, y, xSz, ySz);
-                }
-            }
+            Resizable(){}
+            virtual ~Resizable(){}
+            
             uint x;
             uint y;
             uint xSz;
             uint ySz;
-            lima::render* currentRender;
             std::vector<bean*> beans;
     };   
 }

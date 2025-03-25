@@ -9,6 +9,7 @@ project "lima"
 
     buildoptions {"--std=c++20"}
     buildoptions {"-Werror", "-Wall", "-pedantic", "-Wextra"}
+    buildoptions {"-Wno-unused-parameter"}
 
     includedirs {"include/"}
 
