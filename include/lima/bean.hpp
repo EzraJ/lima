@@ -50,7 +50,7 @@ namespace lima{
     // BOLD 7
     class bean{
         public:
-            bean(char cIn = '#', color bgIn = color(0, 0, 0), color fgIn = color(255, 255, 255), style sIn = style()){
+            bean(char cIn = ' ', color bgIn = color(0, 0, 0), color fgIn = color(255, 255, 255), style sIn = style()){
                 c = cIn;
                 bg = bgIn;
                 fg = fgIn;
