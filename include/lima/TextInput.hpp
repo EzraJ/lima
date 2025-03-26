@@ -42,7 +42,7 @@ namespace lima{
             }
 
             void ProcessInput(char c) override {
-                if(!Input::InputActive) return;
+                if(!Input::InputActive || c == '\t') return;
                 if(c == '\r'){
                     enterString = curString;
                     return;
