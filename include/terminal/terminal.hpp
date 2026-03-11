@@ -3,6 +3,7 @@
 // some info
 #include <stdlib.h>
 #include <stdio.h>
+#include <cstdint>
 #include <signal.h>
 #include <functional>
 #include <unistd.h>
