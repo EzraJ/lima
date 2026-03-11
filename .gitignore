@@ -5,3 +5,8 @@ bin/
 Makefile
 *.make
 test.sh
+
+
+.vs/
+*.slnx
+*.vcxproj*

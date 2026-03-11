@@ -1,14 +1,16 @@
 #pragma once
 // Manage all of the annoyances of the terminal, subtle linux stuff, and
 // some info
-#include <unistd.h>
-#include <termios.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <signal.h>
+#include <functional>
+#include <unistd.h>
+#include <termios.h>
 #include <sys/ioctl.h>
 
 #include "lima/ansi.hpp"
+
 
 // p.s tcsetattr doesn't usually care which file descriptor it's given(stdout vs stdin)
 // since they usually point to the same terminal/tty, despite this confusion

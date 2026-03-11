@@ -9,7 +9,7 @@
 namespace lima{
     class TextInput : Resizable, Input{
         public:
-            TextInput(lima::render* rend, lima::keyboard* key, uint xIn, uint yIn, uint xSzIn, uint ySzIn){
+            TextInput(lima::render* rend, lima::keyboard* key, uint32_t xIn, uint32_t yIn, uint32_t xSzIn, uint32_t ySzIn){
                 currentRender = rend;
                 currentKeyboard = key;
                 currentRender->AddResizable((lima::Resizable*)this);
@@ -67,7 +67,7 @@ namespace lima{
             }
 
             void ResizeBeans(){
-                if(currentRender != nullptr){
+                if (currentRender != nullptr) {
                     Resizable::beans.clear();
                     currentRender->getBeans(Resizable::beans, x, y, xSz, ySz);
                 }
@@ -78,16 +78,16 @@ namespace lima{
                 for(auto& e : Resizable::beans){
                     e->setChar(' ');
                 }
-                for(uint i = 0; i < curPos; i++){
+                for(uint32_t i = 0; i < curPos; i++){
                     Resizable::beans[i]->setChar(curString[i]);
                 }
             }
 
         private:
-            uint curPos;
+            uint32_t curPos;
             std::string enterString;
             std::string curString;
-            lima::render* currentRender;
             lima::keyboard* currentKeyboard;
+            lima::render* currentRender;
     };
 }

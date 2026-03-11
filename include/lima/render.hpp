@@ -4,6 +4,7 @@
 #include <exception>
 #include <memory>
 #include <stdlib.h>
+#include <random>
 
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"
@@ -11,7 +12,6 @@
 #include "lima/basic_str.hpp"
 #include "lima/screen.hpp"
 #include "lima/Resizable.hpp"
-#include <random>
 
 namespace lima{ 
     lima::Vector2 LimaTermSize();
@@ -27,32 +27,31 @@ namespace lima{
             void Print();
 
             void SetBeans(char c, color bg, color fg, style s);
-
-            uint getCount();
+            
+            uint32_t getCount();
 
             Vector2 getSize();
 
-            lima::screen* CreateScreen(uint x, uint y, uint szX, uint szY);
+            lima::screen* CreateScreen(uint32_t x, uint32_t y, uint32_t szX, uint32_t szY);
 
-            void DeleteScreen(lima::screen* ptr);
+            void DeleteScreen(screen* ptr);
 
-            void resizeScreen(screen& in);
+            void resizeScreen(screen* in);
 
-            bean* getBean(uint x, uint y);
-            std::vector<lima::bean*> getBeans(uint xPos, uint yPos, uint xSz, uint ySz);
-            void getBeans(std::vector<bean*>& inVec, uint xPos, uint yPos, uint xSz, uint ySz);
+            bean* getBean(uint32_t x, uint32_t y);
+            std::vector<lima::bean*> getBeans(uint32_t xPos, uint32_t yPos, uint32_t xSz, uint32_t ySz);
+            void getBeans(std::vector<bean*>& inVec, uint32_t xPos, uint32_t yPos, uint32_t xSz, uint32_t ySz);
 
             void AddResizable(lima::Resizable* in);
 
             bool resized;
             bean* beans;
             basic_str* streamBuffer;
-            screen* globalScreen;
             std::mutex modifyMutex;
             std::mutex renderMutex;
         private:
             bean* invisibleBean; // Bean that is to be never rendered
-            uint beanCount;
+            uint32_t beanCount;
             Vector2 terminalSize;
             std::vector<lima::screen*> renderScreens;
             std::vector<lima::Resizable*> renderResizables;

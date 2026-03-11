@@ -7,7 +7,7 @@
 namespace lima{
     class screen{
         public:
-            screen(uint x, uint y, uint sX, uint sY){
+            screen(uint32_t x, uint32_t y, uint32_t sX, uint32_t sY){
                 xPos = x;
                 yPos = y;
                 xSz = sX;
@@ -17,7 +17,7 @@ namespace lima{
 
                 // Func(bean, xPosition, yPosition, xGL, yGL, time)
 
-            void setFunc(std::function<void(lima::bean*, uint, uint, float, float, float)> funcIn){
+            void setFunc(std::function<void(lima::bean*, uint32_t, uint32_t, float, float, float)> funcIn){
                 func = funcIn;
                 funcSet = true;
             }
@@ -25,8 +25,8 @@ namespace lima{
             void Process(float time = 0.0f){
                 if(!funcSet) return;
                 
-                uint xBuf = xPos;
-                uint yBuf = yPos;
+                uint32_t xBuf = xPos;
+                uint32_t yBuf = yPos;
                 for(auto& b : beans){
                     if(b == nullptr) continue;
                     float xGL = (float)2 * (float)((float)xBuf - (float)xPos)/((float)xSz) - 1;
@@ -45,16 +45,16 @@ namespace lima{
 				beans.clear();
 			}
 
-            uint xPos;
-            uint yPos;
+            uint32_t xPos;
+            uint32_t yPos;
 
-            uint xSz;
-            uint ySz;
+            uint32_t xSz;
+            uint32_t ySz;
             bool funcSet;
             std::vector<lima::bean*> beans;
 
         private:
-            std::function<void(lima::bean*, uint, uint, float, float, float)> func;
+            std::function<void(lima::bean*, uint32_t, uint32_t, float, float, float)> func;
 
     };
 }

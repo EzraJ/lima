@@ -1,6 +1,5 @@
 workspace "lima"
     configurations {"Release", "Debug"}
-
 project "lima"
     kind "ConsoleApp"
     language "C++"
@@ -16,6 +15,9 @@ project "lima"
     files {"src/**.c", "src/**.cxx", "src/**.cpp"}
     files {"src/**.h", "src/**.hxx", "src/**.hpp"}
 
+    files {"include/**.c", "include/**.cpp"}
+    files {"include/**.h", "include/**.hpp"}
+
     filter "configurations:Debug"
         symbols "On"
         defines {"DEBUG"}
@@ -24,4 +26,8 @@ project "lima"
         optimize "On"
         defines {"NDEBUG"}
 
+    filter "system:Windows"
+        defines {"LIMA_WINDOWS"}
 
+     filter "system:Linux"
+        defines {"LIMA_LINUX"}

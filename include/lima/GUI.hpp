@@ -42,7 +42,7 @@ namespace lima{
                 lima::render* currentRender;
                 lima::screen* currentScreen;
                 std::vector<lima::Input*> inputs;
-                uint index;
+                uint32_t index;
         };
 
 }

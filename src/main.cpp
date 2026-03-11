@@ -3,6 +3,11 @@
 // Then start another thread and pass arguments to game_main
 
 #include <iostream>
+#include <thread>
+#include <stop_token>
+#include <chrono>
+
+
 #include "lima/ansi.hpp"
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"
@@ -11,10 +16,6 @@
 #include "lima/render.hpp"
 #include "game/game_main.hpp" // game_main(int argc, char** argv)
 #include "lima/keyboard.hpp"
-#include <thread>
-#include <stop_token>
-
-#include <chrono>
 
 lima::render* currentRender = nullptr;
 lima::keyboard* currentKeyboard = nullptr;
@@ -46,6 +47,7 @@ int main(int argc, char** argv){
 
     terminal::initializeTerminal(); // Enter raw mode
 
+
     // Setup interrupt handlers
     struct sigaction saSize;
     saSize.sa_handler = onTerminalResize;
@@ -75,7 +77,4 @@ int main(int argc, char** argv){
     delete currentRender;
 	terminal::restoreTerminal();        
     return game_result;
-    
-
-    
 }

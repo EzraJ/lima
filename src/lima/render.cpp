@@ -16,17 +16,14 @@ namespace lima{
         resized = false;
         invisibleBean = new bean;
         timePt = std::chrono::high_resolution_clock::now();
-        globalScreen = CreateScreen(1, 1, terminalSize.x, terminalSize.y);
     }
 
     render::~render(){
         modifyMutex.lock();  
-        delete globalScreen;
+        
         for(auto& e : renderScreens){
-            if(e == globalScreen) continue;
             delete e;
         }
-        
         delete[] beans;
         delete invisibleBean;
         delete streamBuffer;
@@ -50,7 +47,7 @@ namespace lima{
 
         streamBuffer->clear();
         streamBuffer->add("\x1b[H", 3);
-        for(uint i = 0; i<= beanCount -1; i++){
+        for(uint32_t i = 0; i<= beanCount -1; i++){
             beans[i].CStrAdd(*streamBuffer);
         }
         
@@ -62,14 +59,14 @@ namespace lima{
         if(resized) Resize();
         modifyMutex.lock();
         
-        for(uint i = 0; i <= beanCount - 1; i++){
+        for(uint32_t i = 0; i <= beanCount - 1; i++){
             beans[i].SetBean(c, bg, fg, s);
         }
 
         modifyMutex.unlock();
     }
 
-    uint render::getCount(){
+    uint32_t render::getCount(){
         return beanCount;
     }
 
@@ -90,13 +87,9 @@ namespace lima{
         delete streamBuffer;
         streamBuffer = new basic_str((55*beanCount) + 3);
 
-        for(auto& e : renderScreens){
-            resizeScreen(*e);
+        for(auto &e : renderScreens){
+            resizeScreen(e);
         }
-        globalScreen->xSz = sz.x;
-        globalScreen->ySz = sz.y;
-        
-        resizeScreen(*globalScreen);
         
         for(auto& e : renderResizables){
             e->Resize();
@@ -108,21 +101,21 @@ namespace lima{
         renderMutex.unlock();
     }
 
-    std::vector<lima::bean*> render::getBeans(uint xPos, uint yPos, uint xSz, uint ySz){
+    std::vector<lima::bean*> render::getBeans(uint32_t xPos, uint32_t yPos, uint32_t xSz, uint32_t ySz){
         std::vector<lima::bean*> buf;
         buf.clear();
-        for(uint i = yPos; i < yPos + ySz; i++){
-            for(uint j = xPos; j < xPos + xSz; j++){
+        for(uint32_t i = yPos; i < yPos + ySz; i++){
+            for(uint32_t j = xPos; j < xPos + xSz; j++){
                 buf.push_back(getBean(j, i));
             }
         }
         return buf;
     }
 
-    void render::getBeans(std::vector<lima::bean*>& inVec, uint xPos, uint yPos, uint xSz, uint ySz){
+    void render::getBeans(std::vector<lima::bean*>& inVec, uint32_t xPos, uint32_t yPos, uint32_t xSz, uint32_t ySz){
         inVec.clear();
-        for(uint i = yPos; i < yPos + ySz; i++){
-            for(uint j = xPos; j < xPos + xSz; j++){
+        for(uint32_t i = yPos; i < yPos + ySz; i++){
+            for(uint32_t j = xPos; j < xPos + xSz; j++){
                 inVec.push_back(getBean(j, i));
             }
         }
@@ -132,22 +125,22 @@ namespace lima{
         renderResizables.push_back(in);
     }
 
-    void render::resizeScreen(screen& in){
-        in.beans.clear();
-        for(uint i = in.yPos; i < in.yPos + in.ySz; i++){
-            for(uint j = in.xPos; j < in.xPos + in.xSz; j++){
-                in.beans.push_back(getBean(j, i));
+    void render::resizeScreen(screen* in){
+        in->beans.clear();
+        for(uint32_t i = in->yPos; i < in->yPos + in->ySz; i++){
+            for(uint32_t j = in->xPos; j < in->xPos + in->xSz; j++){
+                in->beans.push_back(getBean(j, i));
             }
         }
     }
 
-    lima::screen* render::CreateScreen(uint x, uint y, uint szX, uint szY){
+    lima::screen* render::CreateScreen(uint32_t x, uint32_t y, uint32_t szX, uint32_t szY){
     	// 1,1 is the top left corner
         if(szX <= 0 || szY <= 0) { return nullptr; }
         if(x < 1 || y < 1) { return nullptr; }
         lima::screen* scrPtr = new lima::screen(x, y, szX, szY);
-        for(uint i = y; i < y + szY; i++){
-            for(uint j = x; j < x + szX; j++){
+        for(uint32_t i = y; i < y + szY; i++){
+            for(uint32_t j = x; j < x + szX; j++){
                 scrPtr->beans.push_back(getBean(j, i));
             }
         }
@@ -164,15 +157,14 @@ namespace lima{
         modifyMutex.lock();
 
         renderScreens.erase(std::remove(renderScreens.begin(), renderScreens.end(), ptr), renderScreens.end());
-
         delete ptr;
 
         modifyMutex.unlock();
     }
 
-    lima::bean* render::getBean(uint x, uint y){
+    lima::bean* render::getBean(uint32_t x, uint32_t y){
         if(x <= 0 || y <= 0) {return invisibleBean;};
-        if(x > (uint)terminalSize.x || y > (uint)terminalSize.y) {return invisibleBean;}
+        if(x > (uint32_t)terminalSize.x || y > (uint32_t)terminalSize.y) {return invisibleBean;}
         return &(beans[x - 1 + (y-1) * terminalSize.x]);
     }
 

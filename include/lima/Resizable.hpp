@@ -10,10 +10,10 @@ namespace lima{
             Resizable(){}
             virtual ~Resizable(){}
             
-            uint x;
-            uint y;
-            uint xSz;
-            uint ySz;
+            uint32_t x;
+            uint32_t y;
+            uint32_t xSz;
+            uint32_t ySz;
             std::vector<bean*> beans;
     };   
 }
