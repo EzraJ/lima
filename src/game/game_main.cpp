@@ -3,6 +3,7 @@
 #include "game/game_main.hpp"
 
 #include "lima/screen_info.hpp"
+#include "lima/TextInput.hpp"
 
 int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard* CurrentKeyboard){
 
@@ -11,7 +12,7 @@ int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard
 	myScr->setFunc([](lima::screen_info info){
 		float x = ((info.normX + 1)/2) * 255;
 		float y = ((info.normY + 1)/2) * 255;
-		info.beanPtr->setBG((unsigned char) x, (unsigned char) y, (sin(info.time)+1.0)/2.0 * 255)
+		info.beanPtr->setBG((unsigned char) x, (unsigned char) y, (sin(info.time)+1.0)/2.0 * 255);
 	});
 
 	lima::TextInput myInp(CurrentRender, CurrentKeyboard, 10, 10, 5, 5);

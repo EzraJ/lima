@@ -100,7 +100,7 @@ namespace ANSI{
         return ESC + "[" + std::to_string(n) + "D";
     }
 
-    constexpr inline std::string COMMAND_STYLE(std::string fmt){
+    inline std::string COMMAND_STYLE(std::string fmt){
         return ESC + "[" + fmt + END_OF_FORMAT;
     }
 

@@ -3,7 +3,7 @@
 #include <functional>
 
 #include "lima/bean.hpp"
-#include "lima/render.hpp"
+#include "lima/Vector2.hpp"
 #include "lima/screen_info.hpp"
 
 // TODO: Screen manager to handle stuff like window resizes

@@ -34,8 +34,8 @@ namespace lima{
 
                 func(info);
                 xBuf++;
-                if(xBuf >= xPos + xSz){
-                    xBuf = xPos;
+                if(xBuf >= Position.x + Size.x){
+                    xBuf = Position.x;
                     yBuf++;
                 }
             }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #include "lima/bean.hpp"
 
 // lima::bean*, uint32_t, uint32_t, float, float, float

@@ -6,6 +6,7 @@
 #include <memory>
 #include <stdlib.h>
 #include <random>
+#include <vector>
 
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"

@@ -127,8 +127,8 @@ namespace lima{
 
     void render::resizeScreen(screen* in){
         in->beans.clear();
-        for(uint32_t i = in->yPos; i < in->yPos + in->ySz; i++){
-            for(uint32_t j = in->xPos; j < in->xPos + in->xSz; j++){
+        for(uint32_t i = in->Position.y; i < in->Position.y + in->Size.y; i++){
+            for(uint32_t j = in->Position.x; j < in->Position.x + in->Size.x; j++){
                 in->beans.push_back(getBean(j, i));
             }
         }
@@ -138,7 +138,8 @@ namespace lima{
     	// 1,1 is the top left corner
         if(szX <= 0 || szY <= 0) { return nullptr; }
         if(x < 1 || y < 1) { return nullptr; }
-        lima::screen* scrPtr = new lima::screen(x, y, szX, szY);
+        lima::screen* scrPtr = new lima::screen(Vector2(x, y), Vector2(szX, szY));
+        //lima::screen* scrPtr = new lima::screen(x, y, szX, szY);
         for(uint32_t i = y; i < y + szY; i++){
             for(uint32_t j = x; j < x + szX; j++){
                 scrPtr->beans.push_back(getBean(j, i));
