@@ -21,6 +21,7 @@ namespace lima{
 
     void basic_str::add(const char* str, size_t nbr)
     {
+        // Hmmmmm.....
         if (m_capacity < m_size + nbr)
         {
             m_capacity += m_nbr_alloc;
