@@ -7,15 +7,12 @@
 #include <stop_token>
 #include <chrono>
 
-
 #include "lima/ansi.hpp"
 #include "terminal/terminal.hpp"
-#include "lima/bean.hpp"
-#include "lima/Resizable.hpp"
-#include "lima/Input.hpp"
 #include "lima/render.hpp"
-#include "game/game_main.hpp" // game_main(int argc, char** argv)
 #include "lima/keyboard.hpp"
+
+#include "game/game_main.hpp" // game_main(int argc, char** argv)
 
 lima::render* currentRender = nullptr;
 lima::keyboard* currentKeyboard = nullptr;
@@ -29,7 +26,7 @@ void onTerminalResize(int signum [[maybe_unused]]){
 
 void renderThreadLoop(std::stop_token stopToken){
     while(!stopToken.stop_requested()){
-        if(currentRender == nullptr) continue;
+        if(currentRender == nullptr) return;
         currentRender->Process();
         currentRender->Print();
     }
@@ -37,7 +34,7 @@ void renderThreadLoop(std::stop_token stopToken){
 
 void keyboardThreadLoop(std::stop_token stopToken){
     while(!stopToken.stop_requested()){
-        if(currentKeyboard == nullptr) continue;
+        if(currentKeyboard == nullptr) return;
         currentKeyboard->Read();
     }
 }
@@ -46,7 +43,6 @@ void keyboardThreadLoop(std::stop_token stopToken){
 int main(int argc, char** argv){
 
     terminal::initializeTerminal(); // Enter raw mode
-
 
     // Setup interrupt handlers
     struct sigaction saSize;
@@ -63,14 +59,14 @@ int main(int argc, char** argv){
     currentKeyboard = new lima::keyboard();
 
     std::jthread renderThread(renderThreadLoop); // Start rendering
-    std::jthread keyboardThread(keyboardThreadLoop);
+    std::jthread keyboardThread(keyboardThreadLoop); // Start processing stdin/inputs 
     
     int game_result = game_main(argc, argv, currentRender, currentKeyboard);
     
     keyboardThread.request_stop();
     renderThread.request_stop();
 
-    renderThread.join(); // On fast terminal simulators(typically gpu rendered ones) closing the thread later causes a segfault
+    renderThread.join(); // On fast terminal emulators(typically gpu rendered ones) closing the thread later causes a segfault
     keyboardThread.join();
     
     delete currentKeyboard;
