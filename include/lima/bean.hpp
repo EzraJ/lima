@@ -1,11 +1,12 @@
 #pragma once
+
 #include <charconv>
 
 #include "ansi.hpp"
 #include "basic_str.hpp"
 
 
-
+// TODO: Replace std::to_chars and honestly CStrAdd() with lookup tables and use of booleans
 
 
 namespace lima{
@@ -143,14 +144,14 @@ namespace lima{
                 }
             }
 
-            void setFG(int r, int g, int b){
+            void setFG(unsigned char r, unsigned char g, unsigned char b){
                 setFG(color(r, g, b));
             }
             void setFG(color in){
                 fg = in;
             }
 
-            void setBG(int r, int g, int b){
+            void setBG(unsigned char r, unsigned char g, unsigned char b){
                 setBG(color(r, g, b));
             }
             void setBG(color in){

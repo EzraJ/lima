@@ -1,4 +1,5 @@
 #pragma once
+
 #include <mutex>
 #include <chrono>
 #include <exception>
@@ -8,7 +9,7 @@
 
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"
-#include "lima/vector2.hpp"
+#include "lima/Vector2.hpp"
 #include "lima/basic_str.hpp"
 #include "lima/screen.hpp"
 #include "lima/Resizable.hpp"

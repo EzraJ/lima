@@ -1,9 +1,10 @@
 #pragma once
-#include "lima/Input.hpp"
+
 #include <vector>
 #include <functional>
 #include <mutex>
 
+#include "lima/Input.hpp"
 
 namespace lima{
     class keyboard{

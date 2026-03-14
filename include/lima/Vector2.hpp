@@ -1,16 +1,16 @@
 #pragma once
 // Who's ready for the 99999th implementation of a vector?
+#include <cstdint>
 
 namespace lima{
     class Vector2{
         public:
-            Vector2(int xIn = 0, int yIn = 0){
+            Vector2(uint64_t xIn = 0, uint64_t yIn = 0){
                 x = xIn; y = yIn;
             }
             ~Vector2(){
                 
             }
-            int x;
-            int y;
+            uint64_t x, y;
     };
 }

@@ -1,5 +1,7 @@
 #pragma once
+
 #include <string>
+
 #include "lima/Resizable.hpp"
 #include "lima/Input.hpp"
 #include "lima/keyboard.hpp"
