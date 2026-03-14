@@ -27,8 +27,8 @@ namespace lima{
                 info.xPos = xBuf;
                 info.yPos = yBuf;
 
-                info.normX = (float)2 * (float)((float)xBuf - (float)Position.x)/((float)xSz) - 1.0f;
-                info.normY = (float)2 * (float)((float)yBuf - (float)Position.y)/((float)ySz) - 1.0f;
+                info.normX = (float)2 * (float)((float)xBuf - (float)Position.x)/((float)Size.x) - 1.0f;
+                info.normY = (float)2 * (float)((float)yBuf - (float)Position.y)/((float)Size.y) - 1.0f;
                 
                 info.time = time;
 
