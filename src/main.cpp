@@ -24,6 +24,8 @@ void onTerminalResize(int signum [[maybe_unused]]){
 }
 
 
+// TODO: this runs at 100% cpu and is fairly optimized... 
+// Implementing an FPS counter would be pretty smart, anything above 500FPS is basically useless
 void renderThreadLoop(std::stop_token stopToken){
     while(!stopToken.stop_requested()){
         if(currentRender == nullptr) return;
@@ -32,6 +34,7 @@ void renderThreadLoop(std::stop_token stopToken){
     }
 }
 
+// I find it acceptable for this to run 24/7 so theres no delay in inputs. 
 void keyboardThreadLoop(std::stop_token stopToken){
     while(!stopToken.stop_requested()){
         if(currentKeyboard == nullptr) return;
