@@ -23,16 +23,17 @@ int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard
 	//sleep(10);
 	
 
-	/*lima::screen* myScr2 = CurrentRender->CreateScreen(10, 1, 20, 20);
+	lima::screen* myScr2 = CurrentRender->CreateScreen(10, 1, 20, 20);
 	
 	myScr2->setFunc([](lima::screen_info info){
 		float x = ((info.normX + 1)/2) * 255;
 		float y = ((info.normY + 1)/2) * 255;
 		info.beanPtr->setBG((unsigned char) x, (unsigned char) y, (sin(info.time*2.0)+1.0)/2.0 * 255);
 	});
-	*/
+	
 	lima::TextInput myInp(CurrentRender, CurrentKeyboard, 20, 10, 5, 5);
 	myInp.SetActive(true);
+	
 	while(myInp.EnteredText() != "quit"){
 		if(myInp.EnteredText() == "I"){
 			beanStyle.italic = true;
@@ -85,5 +86,5 @@ int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard
 
 	}
 
-    return 1;
+    return 0;
 }
