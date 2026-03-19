@@ -17,7 +17,7 @@ int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard
 		//float y = ((info.normY + 1)/2) * 255;
 		//info.beanPtr->setBG((unsigned char) x, (unsigned char) y, (sin(info.time)+1.0)/2.0 * 255);
 		info.beanPtr->setStyle(beanStyle);
-		info.beanPtr->setChar('c1');
+		info.beanPtr->setChar('d');
 	});
 
 	//sleep(10);
