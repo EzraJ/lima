@@ -16,10 +16,8 @@ namespace lima{
                 currentKeyboard = key;
                 currentRender->AddResizable((lima::Resizable*)this);
                 currentKeyboard->AddInput((lima::Input*)this);
-                Resizable::x = xIn;
-                Resizable::y = yIn;
-                Resizable::xSz = xSzIn;
-                Resizable::ySz = ySzIn;
+                Position = Vector2(xIn, yIn);
+                Size = Vector2(xSzIn, ySzIn);
                 enterString = "";
                 curPos = 0;
                 curString = "";
@@ -43,6 +41,14 @@ namespace lima{
                 Input::InputActive = !Input::InputActive;
             }
 
+            void ChangePosition(Vector2 in){
+                Resizable::SetPosition(in);
+            }
+
+            void ChangeSize(Vector2 in){
+                Resizable::SetSize(in);
+            }
+
             void ProcessInput(char c) override {
                 if(!Input::InputActive || c == '\t') return;
                 if(c == '\r'){
@@ -57,7 +63,7 @@ namespace lima{
                 }else if (c == 127){
                     return;
                 }
-                if(curPos < xSz * ySz){
+                if(curPos < Size.x * Size.y){
                     Resizable::beans[curPos]->setChar(c);
                     curPos++;
                     curString += c;
@@ -71,7 +77,7 @@ namespace lima{
             void ResizeBeans(){
                 if (currentRender != nullptr) {
                     Resizable::beans.clear();
-                    currentRender->getBeans(Resizable::beans, x, y, xSz, ySz);
+                    currentRender->getBeans(Resizable::beans, Position.x, Position.y, Size.x, Size.y);
                 }
             }
 

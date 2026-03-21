@@ -38,6 +38,11 @@ namespace lima{
         for(auto& e : renderScreens){
             e->Process((float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f));
         }
+
+        for(auto& e : renderLabels){
+            e->Process();
+        }
+
         modifyMutex.unlock();
     }
 
@@ -122,7 +127,15 @@ namespace lima{
     }
 
     void render::AddResizable(lima::Resizable* in){
+        modifyMutex.lock();
         renderResizables.push_back(in);
+        modifyMutex.unlock();
+    }
+
+    void render::AddLabel(lima::Label* in){
+        modifyMutex.lock();
+        renderLabels.push_back(in);
+        modifyMutex.unlock();
     }
 
     void render::resizeScreen(screen* in){

@@ -14,6 +14,7 @@
 #include "lima/basic_str.hpp"
 #include "lima/screen.hpp"
 #include "lima/Resizable.hpp"
+#include "lima/Label.hpp"
 
 namespace lima{ 
     lima::Vector2 LimaTermSize();
@@ -46,17 +47,22 @@ namespace lima{
 
             void AddResizable(lima::Resizable* in);
 
+            void AddLabel(lima::Label* in);
+
             bool resized;
             bean* beans;
             basic_str* streamBuffer;
             std::mutex modifyMutex;
             std::mutex renderMutex;
+            std::chrono::time_point<std::chrono::high_resolution_clock> timePt;
         private:
             bean* invisibleBean; // Bean that is to be never rendered
             uint32_t beanCount;
             Vector2 terminalSize;
+            
             std::vector<lima::screen*> renderScreens;
             std::vector<lima::Resizable*> renderResizables;
-            std::chrono::time_point<std::chrono::high_resolution_clock> timePt;
+            std::vector<lima::Label*> renderLabels;
+
     };
 }
