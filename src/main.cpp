@@ -34,7 +34,7 @@ void renderThreadLoop(std::stop_token stopToken){
     }
 }
 
-// I find it acceptable for this to run 24/7 so theres no delay in inputs. 
+// I find it acceptable for this to run 24/7 so theres no delay in inputs... maybe
 void keyboardThreadLoop(std::stop_token stopToken){
     while(!stopToken.stop_requested()){
         if(currentKeyboard == nullptr) return;
