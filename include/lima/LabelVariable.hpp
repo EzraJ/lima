@@ -13,14 +13,10 @@ namespace lima{
                 currentRender = renderIn;
                 renderIn->AddResizable(this);
                 renderIn->AddLabel(this);
-
                 var = varIn;
-
                 Resizable::Position = posIn;
                 Resizable::Size = szIn;
-
                 ResizeBeans();
-
             }
 
             ~LabelVariable(){

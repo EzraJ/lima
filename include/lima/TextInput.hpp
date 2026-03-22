@@ -91,7 +91,7 @@ namespace lima{
                 }
             }
 
-        private:
+            private:
             uint32_t curPos;
             std::string enterString;
             std::string curString;

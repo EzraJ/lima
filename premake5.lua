@@ -8,7 +8,7 @@ project "lima"
 
     buildoptions {"--std=c++20"}
     buildoptions {"-Werror", "-Wall", "-pedantic", "-Wextra"}
-    buildoptions {"-Wno-unused-parameter", "-Wno-unused-result"}
+    buildoptions {"-Wno-unused-parameter", "-Wno-unused-result", "-Wno-unused-variable"}
 
     includedirs {"include/"}
 
@@ -23,11 +23,8 @@ project "lima"
         defines {"DEBUG"}
 
     filter "configurations:Release"
-        optimize "On"
+        optimize "Speed"
         defines {"NDEBUG"}
-
-    filter "system:Windows"
-        defines {"LIMA_WINDOWS"}
 
      filter "system:Linux"
         defines {"LIMA_LINUX"}

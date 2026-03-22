@@ -59,7 +59,6 @@ namespace lima{
             bean* invisibleBean; // Bean that is to be never rendered
             uint32_t beanCount;
             Vector2 terminalSize;
-            
             std::vector<lima::screen*> renderScreens;
             std::vector<lima::Resizable*> renderResizables;
             std::vector<lima::Label*> renderLabels;

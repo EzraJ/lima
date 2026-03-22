@@ -24,13 +24,14 @@ int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard
 	
 	lima::TextInput myInp(CurrentRender, CurrentKeyboard, 20, 10, 5, 5);
 	myInp.SetActive(true);
-	
+
 	float time = -(float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(CurrentRender->timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f);
 
 	lima::LabelVariable<float> myLabel(CurrentRender, &time, lima::Vector2(10, 30), lima::Vector2(5, 5));
 
 	while(myInp.EnteredText() != "quit"){
 		time = -(float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(CurrentRender->timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f);
+		//return 1;
 	}
 
     return 0;
