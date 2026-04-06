@@ -17,6 +17,8 @@ For example, in a round with two players; Player A uses a spell with a cast valu
 Each spell, movement, and autoattack will have their own base cast values that additionally scale with a players set of attributes.  
 The intention is to have 2 teams with 6 players for a 6v6. 
 
+TBD if you can use all three of AA, Move, and Ability cast, with downside of combining all cast times together.
+
 ## (Basic) Design of Characters
 For now, 9 character types will exist. The primary design can either be Tank, Damage, or Healer. The secondary design can either be Tank, Damage, or Healer.  
 The Tank archetype will interact with incoming damage. The Damage archetype will interact with outgoing damage. The Healer archetype will interact with healing.  
@@ -45,6 +47,7 @@ Auto attacks are a very powerful tool in a turn based game with spells. They are
 - APT
 - AE
 - Cast Reduction %
+- Movement Speed(Movement Cast Time Reduction)
 - Attributes
     - Strength
     - Dexterity
