@@ -47,7 +47,7 @@ Auto attacks are a very powerful tool in a turn based game with spells. They are
 - APT
 - AE
 - Cast Reduction %
-- Movement Speed(Movement Cast Time Reduction)
+- Movement Speed(Movement Cast Time Reduction and total distance)
 - Attributes
     - Strength
     - Dexterity
@@ -70,12 +70,14 @@ Mana
 A Little bit of every stat. 
 
 # Map Design 
-The map will consist of three different layers with three different win conditions.
-## Middle Layer
-The middle layer will be setup like a traditional MOBA; three different lanes and a jungle. Each lane has minions pushing against multiple towers that all eventually protect a central entity. Defeating the enemys central entity is the win condition. The jungle and corners will have various entrances and exits that allow travel to either the bottom or top layer. Effect of win condition TBD. 
+The map will consist of three different layers with three different win conditions. To win a game a team must have 2/3 of the win conditions met. The map will change and have different effects depending on which layer is won first. 
 
 ## Top Layer
 TBD
+
+## Middle Layer
+The middle layer will be setup like a traditional MOBA; three different lanes and a jungle. Each lane has minions pushing against multiple towers that all eventually protect a central entity. Defeating the enemys central entity is the win condition. The jungle and corners will have various entrances that allow travel to either the bottom or top layer(but not at the same time). Minions and towers give gold and XP.  
+
 
 ## Bottom Layer
 TBD 
