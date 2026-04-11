@@ -72,12 +72,49 @@ A Little bit of every stat.
 # Map Design 
 The map will consist of three different layers with three different win conditions. To win a game a team must have 2/3 of the win conditions met. The map will change and have different effects depending on which layer is won first. 
 
+## Layer completion
+
+Every layer gets changed when a team completes a win condition on a layer, with the change depending on which layer was completed first.  
+
+If the top most layer is won first:
+* Top layer islands disappear
+* Middle layer terrain opens up significantly, the river disappears, and all of the monsters disappear, instead having entrances to the bottom layer
+* Bottom layer opens up significantly, monsters are replaced with tougher monsters that give unique buffs and has normal XP/Gold
+
+If the middle layer is won first:
+* Top layer
+* Middle layer
+* Bottom layer
+
+If the bottom layer is won first:
+* Top layer gains more islands and monsters no longer spawn
+* Middle layer gets flooded with water, and monsters give upgraded buffs. Middle layer terrain gets closed and more restrictive. 
+* Bottom layer rooms open up, and the central monster is significantly buffed(and provides an upgraded buff)
+
 ## Top Layer
-TBD
+The top layer will have a platform in the center of the layer that is the moving objective. There will be various bridges and small "islands" that have entrances from the middle layer and a bridge that leads to where the objective could be. The layer will mostly be made out of empty spaces. 
+
+The win condition of this layer is also point-based and points are gained based on the location of the uncontested objective. The objective moves whenever a team is uncontested on the objective.  
+For example, if the bottom team has the objective pushed 2/3ds of the way into the opposing side, they get 2 points per turn. However, if an enemy is on the platform the points are not gained and the objective stops moving.
+
+Monsters can spawn on the islands and give extra gold but less XP. 
+
+Flying characters can fly up from the middle layer wherever theres empty space, and can travel in tiles that don't have a ground.  
+
+The top layer will consist of clouds and islands that are mountain themed. 
 
 ## Middle Layer
-The middle layer will be setup like a traditional MOBA; three different lanes and a jungle. Each lane has minions pushing against multiple towers that all eventually protect a central entity. Defeating the enemys central entity is the win condition. The jungle and corners will have various entrances that allow travel to either the bottom or top layer(but not at the same time). Minions and towers give gold and XP.  
+The middle layer will be setup like a traditional MOBA; three different lanes and a jungle. Each lane has minions pushing against multiple towers that all eventually protect a central entity. Defeating the enemys central entity is the win condition. The jungle and corners will have various entrances that allow travel to either the bottom or top layer(but not at the same time). Minions and towers give normal gold and normal XP. The center of the map will have an entrance to the top layer. The diagonal lane from top left to bottom right will be a river.  
+The jungle will consist of multiple types of monsters that grant different buffs. Gives normal XP and normal gold.  
+
+Forest/mountainy, underwater characters have their usual buffs in the river, and flying characters have their usual buffs whenver the tile above them is empty. 
 
 
 ## Bottom Layer
-TBD 
+The bottom layer will consist of various different rooms with a main circular room. Each of the rooms will have various monsters that spawn; they give more XP but less gold than minions on the middle layer. The center(and biggest room) will have a larger objective that grants various buffs. It doesn't appear until x minutes/turns into a game. 
+
+The win condition of the bottom layer is point-based(whichever team gets to x points wins). Killing players will grant one point, and killing objectives grants one point as well. 
+
+Underwater characters move faster in water and additionally get their characters specific buffs.
+
+The bottom layer will be a underwater layer or water themed area, or can be underground themed. 
