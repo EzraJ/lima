@@ -39,8 +39,8 @@ Auto attacks are a very powerful tool in a turn based game with spells. They are
 - XP
 - HP
 - HP Regen
-- Mana
-- Mana Regen
+- Resource Bar 
+- Resource Bar Regen
 - Armor
 - Magic Resist
 - AA Ratio
@@ -63,9 +63,9 @@ AA Ratio, Armor, and Cast Reduction %
 ## Constitution(True Damage)
 HP, MR, and Armor
 ## Intelligence(Magic Damage)
-Mana Regen and AE
+AE, and Resource Bar Regen/Mana Regen
 ## Wisdom(Magic Damage)
-Mana 
+Resource bar/Mana 
 ## Charisma(33/33/33 Physical/Magic Damage/True Damage)
 A Little bit of every stat. 
 
