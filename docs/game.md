@@ -28,11 +28,11 @@ A Tank/Damage will be a character designed around turning incoming damage into o
 A Tank/Healer will be a character designed around turning incoming damage into outgoing healing, and would be an Intelligence character. 
 
 # Character Design
-Characters will have each attribute from D&D, and base stats that are more specific. Additionally, characters will have a primary attribute that dictates how much damage their auto attacks deal, and if they do Magic Damage, Physical Damage, True Damage, or a mix. Every stat has a growth stat attached to it. Max character level TBD. Each character will have no limit on minimum/maximum ability counts or passives, but every character will have atleast one passive. Abilities and Passives can scale from any stat. Ability Exponent will take any number in an ability/passive and apply an exponent(i.e. an AE of 1.5 will take every number and apply an exponent of 1.5) Maximum AE, APT, and AA Ratio TBD.  
+Characters will have each attribute from D&D, and base stats that are more specific. Additionally, characters will have a primary attribute that dictates how much damage their auto attacks deal, and if they do Magic Damage, Physical Damage, Pure Damage, or a mix. Every stat has a growth stat attached to it. Max character level TBD. Each character will have no limit on minimum/maximum ability counts or passives, but every character will have atleast one passive. Abilities and Passives can scale from any stat. Ability Exponent will take any number in an ability/passive and apply an exponent(i.e. an AE of 1.5 will take every number and apply an exponent of 1.5) Maximum AE, APT, and AA Ratio TBD.  
 Abilities and Passives can scale off of base stats and attributes. 
 
 ## Auto Attacking
-Auto attacks are a very powerful tool in a turn based game with spells. They are inherently a spell that does not fail to land, as a result they are scaled with an AA Ratio, and multiplied by an Attacks Per Turn stat. Additionally, Attacks Per Turn round down, and can round down to 0 damage if they have less than 1 APT. 
+Auto attacks are a very powerful tool in a turn based game with spells. They are inherently a spell that does not fail to land, as a result they are scaled with an AA Ratio, and multiplied by an Attacks Per Turn stat. Additionally, Attacks Per Turn round down, and can round down to 0 damage if they have less than 1 APT.
 
 ## Base Stats(Plus per level gains)
 - Level
@@ -60,13 +60,13 @@ Auto attacks are a very powerful tool in a turn based game with spells. They are
 HP, HP Regen
 ## Dexterity(Physical Damage)
 AA Ratio, Armor, and Cast Reduction %
-## Constitution(True Damage)
+## Constitution(Pure Damage)
 HP, MR, and Armor
 ## Intelligence(Magic Damage)
 AE, and Resource Bar Regen/Mana Regen
 ## Wisdom(Magic Damage)
 Resource bar/Mana 
-## Charisma(33/33/33 Physical/Magic Damage/True Damage)
+## Charisma(33/33/33 Physical/Magic Damage/Pure Damage)
 A Little bit of every stat. 
 
 # Map Design 
