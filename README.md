@@ -1,4 +1,5 @@
 # Lima
+
 ## What is Lima?
 Lima is a fast C++ framework that allows for the creation of TUI applications. Lima provides real time TUI elements and handles basic input/output. 
 
