@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
 #include <functional>
 #include <mutex>
+
 
 #include "lima/Input.hpp"
 
@@ -17,6 +19,7 @@ namespace lima{
             void AddCallback(std::function<void(char)> funcIn);
 
             void AddInput(lima::Input* in);
+            void RemoveInput(lima::Input* in);
 
         private:
             char lastPressed;

@@ -36,6 +36,10 @@ namespace lima{
         inputObjects.push_back(in);
     }
 
+    void keyboard::RemoveInput(lima::Input* in){
+        std::erase(inputObjects, in);
+    }
+
     keyboard::keyboard(){
 
     }

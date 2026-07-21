@@ -132,9 +132,22 @@ namespace lima{
         modifyMutex.unlock();
     }
 
+    void render::RemoveResizable(lima::Resizable* in){
+        modifyMutex.lock();
+        std::erase(renderResizables, in);
+        modifyMutex.unlock();
+    }
+
+
     void render::AddLabel(lima::Label* in){
         modifyMutex.lock();
         renderLabels.push_back(in);
+        modifyMutex.unlock();
+    }
+
+    void render::RemoveLabel(lima::Label* in){
+        modifyMutex.lock();
+        std::erase(renderLabels, in);
         modifyMutex.unlock();
     }
 
@@ -169,9 +182,10 @@ namespace lima{
 
     void render::DeleteScreen(lima::screen* ptr){
         modifyMutex.lock();
-
-        renderScreens.erase(std::remove(renderScreens.begin(), renderScreens.end(), ptr), renderScreens.end());
+        std::erase(renderScreens, ptr);
         delete ptr;
+        //renderScreens.erase(std::remove(renderScreens.begin(), renderScreens.end(), ptr), renderScreens.end());
+        //delete ptr;
 
         modifyMutex.unlock();
     }

@@ -20,7 +20,8 @@ namespace lima{
             }
 
             ~LabelVariable(){
-
+                currentRender->RemoveResizable(this);
+                currentRender->RemoveLabel(this);
             }
 
             void ResizeBeans(){

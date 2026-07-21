@@ -30,6 +30,8 @@ namespace lima{
                 Input::InputActive = false;
             }
             ~TextInput(){
+                currentRender->RemoveResizable(this);
+                currentKeyboard->RemoveInput(this);
                 Resizable::beans.clear();
             }
 

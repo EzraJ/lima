@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <random>
 #include <vector>
+#include <algorithm>
+
 
 #include "terminal/terminal.hpp"
 #include "lima/bean.hpp"
@@ -46,8 +48,11 @@ namespace lima{
             void getBeans(std::vector<bean*>& inVec, uint32_t xPos, uint32_t yPos, uint32_t xSz, uint32_t ySz);
 
             void AddResizable(lima::Resizable* in);
+            void RemoveResizable(lima::Resizable* in);
 
             void AddLabel(lima::Label* in);
+            void RemoveLabel(lima::Label* in);
+
 
             bool resized;
             bean* beans;
