@@ -3,10 +3,11 @@
 #include "lima/Resizable.hpp"
 #include "lima/Label.hpp"
 #include "lima/Vector2.hpp"
+#include "lima/LimaConcepts.hpp"
 
 namespace lima{
 
-    template<typename T>
+    template<lima::ToStringable T>
     class LabelVariable : Resizable, Label{
         public:
             LabelVariable(render* renderIn, T* varIn, Vector2 posIn = Vector2(1, 1), Vector2 szIn = Vector2(1,1)){

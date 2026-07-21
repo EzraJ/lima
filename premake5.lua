@@ -3,7 +3,7 @@ workspace "lima"
 project "lima"
     kind "ConsoleApp"
     language "C++"
-    cppdialect "C++26" -- Might as well
+    cppdialect "C++23" -- Might as well
     targetdir "bin/%{cfg.buildcfg}"
 
     buildoptions {"--std=c++20"}
