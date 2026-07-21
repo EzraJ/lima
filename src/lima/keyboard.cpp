@@ -24,20 +24,26 @@ namespace lima{
             for(auto& e : callbacks){
                 e(lastPressed);
             }
+            modifyMutex.lock();
             for(auto& e : inputObjects){
                 e->ProcessInput(lastPressed);
             }
+            modifyMutex.unlock();
         }
         
         // Cycle through all callback functions for onpress events
     }
 
     void keyboard::AddInput(lima::Input* in){
+        modifyMutex.lock();
         inputObjects.push_back(in);
+        modifyMutex.unlock();
     }
 
     void keyboard::RemoveInput(lima::Input* in){
+        modifyMutex.lock();
         std::erase(inputObjects, in);
+        modifyMutex.unlock();
     }
 
     keyboard::keyboard(){

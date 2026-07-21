@@ -25,7 +25,7 @@ namespace lima{
             char lastPressed;
             std::vector<std::function<void(char)>> callbacks;
             std::vector<lima::Input*> inputObjects;
-            std::mutex addMutex;
+            std::mutex modifyMutex;
             
     };
 }
