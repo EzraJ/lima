@@ -32,6 +32,11 @@ int game_main(int argc, char** argv, lima::render* CurrentRender, lima::keyboard
 	while(myInp.EnteredText() != "quit"){
 		time = -(float) ((float)std::chrono::duration_cast<std::chrono::milliseconds>(CurrentRender->timePt - std::chrono::high_resolution_clock::now()).count() / 1000.0f);
 		//return 1;
+
+		// Valgrind and other debugging tools lag super hard if the main thread is stuck in a while loop.
+		// Adding this 10ms sleep makes them bearable to use. 
+		using namespace std::chrono_literals;
+		std::this_thread::sleep_for(10ms);
 	}
 
     return 0;
